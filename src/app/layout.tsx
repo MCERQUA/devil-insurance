@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 const SITE_URL = "https://devilinsurance.com";
 const SITE_NAME = "Devil Insurance";
-const PHONE = "+1-844-967-5247";
+const PHONE = "+18449675247";
 const OG_IMAGE = `${SITE_URL}/og-default.jpg`;
 
 export const metadata: Metadata = {
