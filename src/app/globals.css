@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: light; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground font-body antialiased; }
+  h1, h2, h3, h4 { @apply font-display; }
+  ::selection { background-color: rgba(200,164,42,0.3); }
+}
+
+@layer components {
+  .container-wide { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .container-tight { @apply mx-auto w-full max-w-3xl px-5 sm:px-8; }
+
+  .btn-primary {
+    @apply relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-sm bg-gold px-7 py-3.5 font-display font-700 text-maroon-dark text-sm uppercase tracking-widest shadow-card transition-all duration-200 hover:bg-gold-dark hover:-translate-y-0.5;
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+  }
+  .btn-primary:hover::after { transform: translateX(120%); }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border-2 border-white bg-transparent px-7 py-3.5 font-display font-700 text-white text-sm uppercase tracking-widest transition-all duration-200 hover:bg-white/10;
+  }
+  .btn-maroon {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-maroon border-2 border-maroon px-7 py-3.5 font-display font-700 text-white text-sm uppercase tracking-widest transition-all duration-200 hover:bg-maroon-dark;
+  }
+  .btn-outline-maroon {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border-2 border-maroon bg-transparent px-7 py-3.5 font-display font-700 text-maroon text-sm uppercase tracking-widest transition-all duration-200 hover:bg-maroon hover:text-white;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-sm border border-border bg-white px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-maroon-dark;
+  }
+  .pill-accent {
+    @apply inline-flex items-center gap-2 rounded-sm border border-gold/40 bg-gold/15 px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-maroon-dark;
+  }
+  .pill-primary {
+    @apply inline-flex items-center gap-2 rounded-sm bg-maroon-dark px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-gold;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-display font-700 uppercase tracking-[0.18em] text-gold-dark;
+  }
+  .h-section {
+    @apply font-display font-700 uppercase text-maroon-dark text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.05] tracking-tight;
+  }
+  .lead {
+    @apply text-lg text-muted-foreground leading-relaxed;
+  }
+}
+
+@layer utilities {
+  .bg-devil-gradient {
+    background-image: linear-gradient(135deg, #5C0A1E 0%, #8B1538 55%, #B01E45 100%);
+  }
+  .bg-maroon-texture {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(200,164,42,0.04) 10px,
+      rgba(200,164,42,0.04) 12px
+    );
+  }
+  .bg-card-pale { background-color: #F5F0F0; }
+  .bg-gold-pale { background-color: #FBF6E6; }
+
+  @keyframes devil-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  .devil-float { animation: devil-float 5s ease-in-out infinite; }
+
+  @keyframes devil-glow { 0%,100% { opacity:.55; transform: scale(1); } 50% { opacity:.9; transform: scale(1.08); } }
+  .devil-glow { animation: devil-glow 4.5s ease-in-out infinite; }
+
+  @keyframes devil-shine { 0% { background-position: -150% 0; } 100% { background-position: 250% 0; } }
+  .devil-shine-text {
+    background: linear-gradient(110deg, #C8A42A 35%, #F5E099 50%, #C8A42A 65%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: devil-shine 4s linear infinite;
+  }
+
+  .lj-underline { position: relative; }
+  .lj-underline::after {
+    content:""; position:absolute; left:0; bottom:-4px; height:2px; width:100%;
+    background:#C8A42A; transform: scaleX(0); transform-origin:left; transition: transform .3s ease;
+  }
+  .lj-underline:hover::after, .lj-underline[data-active="true"]::after { transform: scaleX(1); }
+
+  @keyframes lj-bounce { 0%,100% { transform: translateY(0); opacity:.7 } 50% { transform: translateY(8px); opacity:1 } }
+  .lj-bounce { animation: lj-bounce 1.8s ease-in-out infinite; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devil-float, .devil-glow, .devil-shine-text, .lj-bounce { animation: none !important; }
+}

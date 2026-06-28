@@ -1,0 +1,24 @@
+node_modules/
+.next/
+.DS_Store
+*.log
+.claude/
+.intake.json
+.env
+.env.*
+id_*
+*.pem
+*.key
+*-write
+*_rsa
+*_ed25519
+deploy_*
+.ssh/
+deploy_key
+deploy_key.pub
+# --- key/secret exclusion ---
+*-write
+*-write.pub
+id_ed25519*
+id_rsa*
+out/
