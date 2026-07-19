@@ -1,194 +1,514 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import {
+  Phone,
+  CheckCircle,
+  ArrowRight,
+  ArrowLeft,
+  Send,
+  ShieldCheck,
+  Star,
+  CheckCircle2,
+} from "lucide-react";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { FadeIn } from "@/components/animations/FadeIn";
-import { CheckCircle, Shield, ArrowRight, Phone } from "lucide-react";
 import { SITE } from "@/lib/site";
 
-const TOWNS = [
-  "Tempe",
-  "Chandler",
-  "Mesa",
-  "Gilbert",
-  "Scottsdale",
-  "Phoenix",
-  "Ahwatukee",
-  "Guadalupe",
-  "Queen Creek",
-  "Maricopa",
-  "Other (East Valley / Arizona)",
+const INSURANCE_TYPES = [
+  "Home Insurance",
+  "Auto Insurance",
+  "Business Insurance",
+  "Life Insurance",
+  "Renters Insurance",
+  "Specialty Insurance (motorcycle, boat, ATV, etc.)",
+  "Bundle (home + auto)",
+  "Multiple types — help me figure it out",
 ];
 
-const COVERAGE_LINES = [
-  "Home / Homeowners insurance",
-  "Auto / Car insurance",
-  "Business insurance",
-  "Landlord / Rental property insurance",
-  "Renters insurance",
-  "Bundle — home + auto",
-  "Multiple policies",
-  "Not sure — help me figure it out",
+const TIMEFRAMES = [
+  "As soon as possible",
+  "Within 30 days",
+  "1–3 months",
+  "Just comparing / planning",
 ];
 
-const inputClass =
-  "w-full px-4 py-3 rounded-sm border border-gray-200 bg-white text-[#1A0A0F] placeholder-gray-400 focus:outline-none focus:border-[#C8A42A] focus:ring-2 focus:ring-[#C8A42A]/30 transition-all text-sm";
-const labelClass = "block text-sm font-body font-semibold text-[#1A0A0F] mb-1.5";
+const CURRENTLY_INSURED = [
+  "Yes — looking to switch or compare",
+  "Yes — looking to add coverage",
+  "No — first time buyer",
+  "Prefer not to say",
+];
+
+interface FormState {
+  insuranceType: string;
+  currentlyInsured: string;
+  timeframe: string;
+  name: string;
+  phone: string;
+  email: string;
+  state: string;
+  message: string;
+  "bot-field": string;
+}
+
+const INITIAL: FormState = {
+  insuranceType: "",
+  currentlyInsured: "",
+  timeframe: "",
+  name: "",
+  phone: "",
+  email: "",
+  state: "",
+  message: "",
+  "bot-field": "",
+};
+
+const STEPS = ["Coverage Type", "Your Situation", "Contact Info"];
+
+const inputCls =
+  "w-full bg-[#1a0a0d] border border-[#3a1020] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFC627] focus:ring-1 focus:ring-[#FFC627]/30 transition-colors";
+const labelCls = "block text-bone text-sm font-body font-semibold mb-2";
 
 export default function QuotePage() {
-  const aeoSrcRef = useRef<HTMLInputElement>(null);
-  const aeoUrlRef = useRef<HTMLInputElement>(null);
+  const [step, setStep] = useState(0);
+  const [form, setForm] = useState<FormState>(INITIAL);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const update = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const canNext =
+    step === 0
+      ? Boolean(form.insuranceType)
+      : step === 1
+        ? Boolean(form.currentlyInsured && form.timeframe)
+        : true;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (form["bot-field"]) return;
+    setSubmitting(true);
+    setError(null);
     try {
-      const p = new URLSearchParams(location.search);
-      let src = p.get("utm_source") || p.get("ref") || "";
-      if (!src && document.referrer) {
-        try { src = new URL(document.referrer).hostname; } catch { src = document.referrer; }
-      }
-      if (!src) src = "direct";
-      if (aeoSrcRef.current) aeoSrcRef.current.value = src;
-      if (aeoUrlRef.current) aeoUrlRef.current.value = location.href;
-    } catch {}
-  }, []);
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "quote",
+          ...form,
+        }).toString(),
+      });
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+    } catch {
+      setError(
+        `Something went wrong. Please call us at ${SITE.phone} or try again.`
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
       <Navbar />
       <main>
-        <section className="relative bg-[#F5F0F0] pt-32 pb-24">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <FadeIn>
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#8B1538] mb-6">
-                  <Shield className="w-4 h-4 text-[#C8A42A]" />
-                  <span className="text-xs font-bold text-[#C8A42A] uppercase tracking-wider">
-                    Free Quote · Local East Valley Agents
-                  </span>
-                </div>
-                <h1 className="font-display font-800 uppercase text-[#8B1538] text-4xl md:text-5xl mb-4 tracking-tight">
-                  Get Your{" "}
-                  <span className="text-[#C8A42A]">Free Insurance Quote</span>
-                </h1>
-                <p className="text-lg text-[#6B5B5F] max-w-xl mx-auto font-body">
-                  Tell us what you need to protect in Tempe or the East Valley — home, car, business, rental, or apartment — and a local agent will follow up the same business day.
-                </p>
+        {/* HERO */}
+        <section className="relative pt-32 pb-14 overflow-hidden bg-[#2a0e18] border-b border-[#3a1020]">
+          <div aria-hidden className="absolute inset-0 opacity-[0.04] bg-hazard-stripes" />
+          <div className="container-x relative">
+            <div className="max-w-2xl">
+              <div className="kicker mb-4">
+                <ShieldCheck className="w-4 h-4" /> Free · No Obligation
               </div>
-            </FadeIn>
+              <h1 className="font-heading font-semibold text-4xl sm:text-5xl text-bone leading-tight mb-4">
+                Get a Free Insurance Quote
+              </h1>
+              <p className="text-steel-light font-body text-lg">
+                Tell us what you need and we&apos;ll shop dozens of top-rated
+                carriers to find you the best coverage at the best price.
+                Takes about 15 minutes — free, no pressure, no obligation.
+              </p>
+            </div>
+          </div>
+        </section>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Trust sidebar */}
-              <FadeIn direction="right" className="space-y-4">
-                {[
-                  { title: "A real local agency", desc: "We live and work in the East Valley too. You get a neighbor who knows Tempe risks — not an out-of-state 800-number." },
-                  { title: "All 5 coverage lines", desc: "Home, auto, business, landlord, and renters — one local agent, often bundled to save you money." },
-                  { title: "We know East Valley risks", desc: "Monsoon storms, extreme heat, busy freeways, high-density neighborhoods — we build coverage around how the Valley actually lives." },
-                  { title: "No obligation", desc: "Get the quote and compare. No pressure, no commitment, no spam." },
-                ].map((item) => (
-                  <div key={item.title} className="flex gap-3 p-4 rounded-sm bg-white border border-gray-200 hover:border-[#C8A42A] shadow-card transition-colors">
-                    <CheckCircle className="w-5 h-5 text-[#C8A42A] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-body font-bold text-[#8B1538] text-sm">{item.title}</p>
-                      <p className="text-[#6B5B5F] text-xs leading-relaxed">{item.desc}</p>
+        <section className="py-16 sm:py-20">
+          <div className="container-x">
+            <div className="grid lg:grid-cols-[1fr_340px] gap-10">
+              {/* FORM */}
+              <div>
+                {submitted ? (
+                  <FadeIn>
+                    <div className="card-dark p-10 sm:p-12 text-center">
+                      <div className="w-16 h-16 rounded-full bg-[#8C1D40]/30 flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle className="w-8 h-8 text-[#FFC627]" />
+                      </div>
+                      <h2 className="font-heading font-semibold text-2xl text-bone mb-3">
+                        Quote Request Received
+                      </h2>
+                      <p className="text-steel-light font-body mb-5 max-w-md mx-auto">
+                        Thanks! We&apos;ll review your information and reach out to
+                        discuss your options — usually the same business day.
+                        Want to talk sooner? Call us anytime.
+                      </p>
+                      <a
+                        href={SITE.phoneHref}
+                        className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold text-lg mb-8"
+                      >
+                        <Phone className="w-5 h-5" /> {SITE.phone}
+                      </a>
+                      <div>
+                        <Link
+                          href="/"
+                          className="inline-flex items-center gap-2 text-steel-light hover:text-[#FFC627] font-body font-semibold transition-colors"
+                        >
+                          Back to Home <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </FadeIn>
+                ) : (
+                  <div className="card-dark p-7 sm:p-9">
+                    {/* Step indicator */}
+                    <div className="flex items-center gap-2 mb-8">
+                      {STEPS.map((label, i) => (
+                        <div key={label} className="flex items-center gap-2 flex-1">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span
+                              className={`w-8 h-8 rounded-lg flex items-center justify-center font-heading font-semibold text-sm shrink-0 transition-colors ${
+                                i <= step
+                                  ? "bg-[#8C1D40] text-white"
+                                  : "bg-[#1a0a0d] text-steel-dark"
+                              }`}
+                            >
+                              {i + 1}
+                            </span>
+                            <span
+                              className={`text-xs font-body font-semibold hidden sm:block truncate ${
+                                i <= step ? "text-bone" : "text-steel-dark"
+                              }`}
+                            >
+                              {label}
+                            </span>
+                          </div>
+                          {i < STEPS.length - 1 && (
+                            <div
+                              className={`h-px flex-1 ${
+                                i < step ? "bg-[#8C1D40]" : "bg-[#3a1020]"
+                              }`}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    <form
+                      name="quote"
+                      data-netlify="true"
+                      netlify-honeypot="bot-field"
+                      onSubmit={handleSubmit}
+                    >
+                      <input type="hidden" name="form-name" value="quote" />
+                      <div className="hidden" aria-hidden="true">
+                        <label>
+                          Don&apos;t fill this out:{" "}
+                          <input
+                            name="bot-field"
+                            value={form["bot-field"]}
+                            onChange={update}
+                            tabIndex={-1}
+                            autoComplete="off"
+                          />
+                        </label>
+                      </div>
+
+                      {/* STEP 1 */}
+                      {step === 0 && (
+                        <div className="space-y-5">
+                          <div>
+                            <label htmlFor="insuranceType" className={labelCls}>
+                              What type of insurance do you need?{" "}
+                              <span className="text-[#FFC627]">*</span>
+                            </label>
+                            <select
+                              id="insuranceType"
+                              name="insuranceType"
+                              required
+                              value={form.insuranceType}
+                              onChange={update}
+                              className={inputCls}
+                            >
+                              <option value="" disabled>
+                                Select coverage type…
+                              </option>
+                              {INSURANCE_TYPES.map((t) => (
+                                <option key={t} value={t}>
+                                  {t}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* STEP 2 */}
+                      {step === 1 && (
+                        <div className="space-y-5">
+                          <div>
+                            <label htmlFor="currentlyInsured" className={labelCls}>
+                              Are you currently insured?{" "}
+                              <span className="text-[#FFC627]">*</span>
+                            </label>
+                            <select
+                              id="currentlyInsured"
+                              name="currentlyInsured"
+                              required
+                              value={form.currentlyInsured}
+                              onChange={update}
+                              className={inputCls}
+                            >
+                              <option value="" disabled>
+                                Select…
+                              </option>
+                              {CURRENTLY_INSURED.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div>
+                            <label htmlFor="timeframe" className={labelCls}>
+                              When do you need coverage?{" "}
+                              <span className="text-[#FFC627]">*</span>
+                            </label>
+                            <select
+                              id="timeframe"
+                              name="timeframe"
+                              required
+                              value={form.timeframe}
+                              onChange={update}
+                              className={inputCls}
+                            >
+                              <option value="" disabled>
+                                Select a timeframe…
+                              </option>
+                              {TIMEFRAMES.map((w) => (
+                                <option key={w} value={w}>
+                                  {w}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* STEP 3 */}
+                      {step === 2 && (
+                        <div className="space-y-5">
+                          <div className="grid sm:grid-cols-2 gap-5">
+                            <div>
+                              <label htmlFor="name" className={labelCls}>
+                                Full Name <span className="text-[#FFC627]">*</span>
+                              </label>
+                              <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                required
+                                autoComplete="name"
+                                value={form.name}
+                                onChange={update}
+                                placeholder="Jane Smith"
+                                className={inputCls}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="phone" className={labelCls}>
+                                Phone <span className="text-[#FFC627]">*</span>
+                              </label>
+                              <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                required
+                                autoComplete="tel"
+                                value={form.phone}
+                                onChange={update}
+                                placeholder="(602) 555-0100"
+                                className={inputCls}
+                              />
+                            </div>
+                          </div>
+                          <div className="grid sm:grid-cols-2 gap-5">
+                            <div>
+                              <label htmlFor="email" className={labelCls}>
+                                Email <span className="text-[#FFC627]">*</span>
+                              </label>
+                              <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                autoComplete="email"
+                                value={form.email}
+                                onChange={update}
+                                placeholder="jane@email.com"
+                                className={inputCls}
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="state" className={labelCls}>
+                                State
+                              </label>
+                              <input
+                                id="state"
+                                name="state"
+                                type="text"
+                                autoComplete="address-level1"
+                                value={form.state}
+                                onChange={update}
+                                placeholder="Arizona"
+                                className={inputCls}
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label htmlFor="message" className={labelCls}>
+                              Anything else we should know?
+                            </label>
+                            <textarea
+                              id="message"
+                              name="message"
+                              rows={4}
+                              value={form.message}
+                              onChange={update}
+                              placeholder="Current carrier, coverage amounts, specific questions, etc."
+                              className={`${inputCls} resize-none`}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {error && (
+                        <p className="text-[#FFC627] text-sm font-body mt-5 bg-[#FFC627]/10 border border-[#FFC627]/30 rounded-lg px-4 py-3">
+                          {error}
+                        </p>
+                      )}
+
+                      {/* NAV BUTTONS */}
+                      <div className="flex items-center justify-between gap-4 mt-8">
+                        {step > 0 ? (
+                          <button
+                            type="button"
+                            onClick={() => setStep((s) => s - 1)}
+                            className="inline-flex items-center gap-2 text-steel-light hover:text-bone font-heading font-semibold transition-colors"
+                          >
+                            <ArrowLeft className="w-4 h-4" /> Back
+                          </button>
+                        ) : (
+                          <span />
+                        )}
+
+                        {step < STEPS.length - 1 ? (
+                          <button
+                            type="button"
+                            onClick={() => canNext && setStep((s) => s + 1)}
+                            disabled={!canNext}
+                            className="btn-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            Continue <ArrowRight className="w-4 h-4" />
+                          </button>
+                        ) : (
+                          <button
+                            type="submit"
+                            disabled={submitting}
+                            className="btn-gold disabled:opacity-60"
+                          >
+                            {submitting ? (
+                              <>
+                                <span className="w-4 h-4 border-2 border-[#1a0a0d]/40 border-t-[#1a0a0d] rounded-full animate-spin" />
+                                Submitting…
+                              </>
+                            ) : (
+                              <>
+                                <Send className="w-4 h-4" /> Get My Free Quote
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </div>
+
+              {/* SIDEBAR */}
+              <aside>
+                <div className="lg:sticky lg:top-28 space-y-5">
+                  <div className="bg-[#8C1D40] rounded-xl p-6">
+                    <p className="text-white/80 text-xs font-body uppercase tracking-wider mb-2">
+                      Prefer to Talk?
+                    </p>
+                    <a
+                      href={SITE.phoneHref}
+                      className="flex items-center gap-2 font-heading font-semibold text-white text-xl mb-1"
+                    >
+                      <Phone className="w-5 h-5" /> {SITE.phone}
+                    </a>
+                    <p className="text-white/80 text-sm font-body">{SITE.hours}</p>
+                  </div>
+
+                  <div className="card-dark p-6">
+                    <h3 className="font-heading font-semibold text-bone text-base mb-4">
+                      What Happens Next
+                    </h3>
+                    <ol className="space-y-4">
+                      {[
+                        "We review your info and contact you to ask a few quick questions.",
+                        "We shop dozens of carriers and find the best rate for your situation.",
+                        "We present your options — you choose, no pressure.",
+                      ].map((t, i) => (
+                        <li key={t} className="flex items-start gap-3">
+                          <span className="w-6 h-6 rounded-md bg-[#8C1D40]/30 text-[#FFC627] font-heading font-semibold text-xs flex items-center justify-center shrink-0">
+                            {i + 1}
+                          </span>
+                          <span className="text-steel-light text-sm font-body leading-relaxed">
+                            {t}
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  <div className="card-dark p-6">
+                    <div className="flex flex-wrap gap-x-4 gap-y-3">
+                      {[
+                        { icon: ShieldCheck, t: "30+ carriers" },
+                        { icon: CheckCircle2, t: "Free quotes" },
+                        { icon: Star, t: "Claims advocacy" },
+                        { icon: CheckCircle2, t: "No obligation" },
+                      ].map((b) => (
+                        <div
+                          key={b.t}
+                          className="flex items-center gap-2 text-steel-light text-xs font-body"
+                        >
+                          <b.icon className="w-4 h-4 text-[#FFC627]" /> {b.t}
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
-                <div className="p-5 rounded-sm text-center bg-[#8B1538] text-white">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#C8A42A] mb-2">Prefer to call?</p>
-                  <a href={SITE.phoneHref} className="flex items-center justify-center gap-2 text-white font-display font-semibold text-lg hover:text-[#C8A42A] transition-colors">
-                    <Phone className="w-5 h-5" />
-                    {SITE.phone}
-                  </a>
-                  <p className="text-white/60 text-xs mt-1">Mon–Fri 8am–5pm MST</p>
                 </div>
-              </FadeIn>
-
-              {/* Form */}
-              <FadeIn className="lg:col-span-2">
-                <form
-                  data-netlify="true"
-                  name="quote"
-                  netlify-honeypot="bot-field"
-                  action="/thank-you"
-                  className="rounded-sm p-8 md:p-10 space-y-6 bg-white border border-gray-200 shadow-lift"
-                >
-                  <input type="hidden" name="form-name" value="quote" />
-                  {/* AEO traffic-source capture (hidden; never rendered) */}
-                  <input type="hidden" name="traffic_source" ref={aeoSrcRef} />
-                  <input type="hidden" name="landing_url" ref={aeoUrlRef} />
-                  <p className="hidden">
-                    <label>Don&apos;t fill this out if you&apos;re human: <input name="bot-field" /></label>
-                  </p>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className={labelClass}>Full Name *</label>
-                      <input id="name" name="name" type="text" required placeholder="Jane Doe" className={inputClass} />
-                    </div>
-                    <div>
-                      <label htmlFor="coverage" className={labelClass}>Coverage Needed *</label>
-                      <select id="coverage" name="coverage" required defaultValue="" className={inputClass}>
-                        <option value="">Select coverage…</option>
-                        {COVERAGE_LINES.map((c) => <option key={c} value={c}>{c}</option>)}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="email" className={labelClass}>Email Address *</label>
-                      <input id="email" name="email" type="email" required placeholder="jane@example.com" className={inputClass} />
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className={labelClass}>Phone Number *</label>
-                      <input id="phone" name="phone" type="tel" required placeholder="(480) 555-0100" className={inputClass} />
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="town" className={labelClass}>Your Community *</label>
-                      <select id="town" name="town" required defaultValue="" className={inputClass}>
-                        <option value="">Select your city…</option>
-                        {TOWNS.map((t) => <option key={t} value={t}>{t}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="currentCoverage" className={labelClass}>Current Coverage Status</label>
-                      <select id="currentCoverage" name="currentCoverage" defaultValue="" className={inputClass}>
-                        <option value="">Select…</option>
-                        <option>Currently insured, shopping for a better rate</option>
-                        <option>Currently insured, unhappy with my carrier</option>
-                        <option>New home / car / business — need coverage</option>
-                        <option>Not currently insured</option>
-                        <option>Not sure</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className={labelClass}>
-                      Tell us what you need{" "}
-                      <span className="text-[#6B5B5F] font-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      id="message" name="message" rows={4}
-                      placeholder="Address or neighborhood, year/type of home, vehicles, business details — anything that helps us quote accurately…"
-                      className={`${inputClass} resize-none`}
-                    />
-                  </div>
-
-                  <button type="submit" className="btn-primary w-full">
-                    Request My Free Quote <ArrowRight className="w-5 h-5" />
-                  </button>
-
-                  <p className="text-xs text-center text-[#6B5B5F] font-body">
-                    No spam. No commitment. A local East Valley agent will reach out to discuss your needs.
-                  </p>
-                </form>
-              </FadeIn>
+              </aside>
             </div>
           </div>
         </section>

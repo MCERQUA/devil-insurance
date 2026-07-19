@@ -2,19 +2,24 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
-import { Menu, X, Phone, Shield } from "lucide-react";
-import { SITE, NAV_LINKS } from "@/lib/site";
+import Image from "next/image";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
+import { SITE, SERVICES } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+const NAV = [
+  { label: "Services", href: "/services", hasMenu: true },
+  { label: "Service Areas", href: "/service-areas" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const prefersReduced = useReducedMotion();
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -24,129 +29,132 @@ export function Navbar() {
   }, []);
 
   return (
-    <motion.header
-      className="sticky top-0 z-50"
-      initial={prefersReduced ? undefined : { y: -100 }}
-      animate={prefersReduced ? undefined : { y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <header
+      className={cn(
+        "fixed top-0 inset-x-0 z-50 transition-all duration-300",
+        scrolled
+          ? "bg-[#1a0a0d]/95 backdrop-blur-md border-b border-[#3a1020] shadow-lg"
+          : "bg-gradient-to-b from-[#1a0a0d]/90 to-transparent"
+      )}
     >
-      {/* Top utility bar — maroon bg, gold text */}
-      <div className="bg-[#5C0A1E] text-[#C8A42A]">
-        <div className="container-wide flex h-9 items-center justify-between gap-4">
-          <span className="hidden lg:block w-[200px]" aria-hidden />
-          <p className="hidden md:block flex-1 text-center font-display font-600 text-[0.7rem] uppercase tracking-[0.18em]">
-            Devil Insurance — Protecting East Valley Families &amp; Businesses
-          </p>
-          <div className="flex items-center gap-5 text-[0.7rem] font-display font-700 uppercase tracking-widest">
+      <div className="container-x">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image
+              src="/images/devil-logo.png"
+              alt="Devil Insurance logo"
+              width={48}
+              height={48}
+              className="w-12 h-12 object-contain"
+            />
+            <span className="font-heading font-semibold text-lg sm:text-xl tracking-tight text-bone leading-none">
+              Devil{" "}
+              <span className="text-[#FFC627]">Insurance</span>
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-7">
+            {NAV.map((item) =>
+              item.hasMenu ? (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => setServicesOpen(true)}
+                  onMouseLeave={() => setServicesOpen(false)}
+                >
+                  <Link
+                    href={item.href}
+                    className="flex items-center gap-1 text-steel-light hover:text-bone font-body font-medium text-sm transition-colors"
+                  >
+                    {item.label}
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  </Link>
+                  {servicesOpen && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-60">
+                      <div className="card-dark p-2 shadow-2xl">
+                        {SERVICES.map((s) => (
+                          <Link
+                            key={s.slug}
+                            href={`/services/${s.slug}`}
+                            className="block px-3 py-2 rounded-lg text-sm text-steel-light hover:text-bone hover:bg-[#3a1020] transition-colors"
+                          >
+                            {s.navTitle} Insurance
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="text-steel-light hover:text-bone font-body font-medium text-sm transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+          </nav>
+
+          {/* Right controls */}
+          <div className="flex items-center gap-4">
             <a
               href={SITE.phoneHref}
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-gold-light"
+              className="hidden xl:flex items-center gap-2 text-bone hover:text-[#FFC627] transition-colors"
             >
-              <Phone className="h-3.5 w-3.5" />
-              {SITE.phone}
+              <Phone className="w-4 h-4 text-[#FFC627]" />
+              <span className="font-heading font-bold text-sm">{SITE.phone}</span>
             </a>
+            <Link
+              href="/quote"
+              className="hidden sm:inline-flex items-center bg-[#FFC627] hover:bg-[#ffd35e] text-[#1a0a0d] px-5 py-2.5 rounded-lg font-heading font-bold text-sm tracking-tight transition-colors shadow-[0_0_18px_rgba(255,198,39,0.3)]"
+            >
+              Free Quote
+            </Link>
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="lg:hidden text-bone p-1"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Main nav */}
-      <nav
-        className={[
-          "bg-white transition-shadow duration-300",
-          scrolled ? "border-b-2 border-gray-200 shadow-md" : "border-b border-gray-200 shadow-none",
-        ].join(" ")}
-      >
-        <div className="container-wide flex h-20 items-center justify-between gap-6">
-          {/* Logo mark */}
-          <Link href="/" aria-label={`${SITE.name} home`} className="flex items-center gap-3 transition-transform duration-200 hover:scale-105">
-            {/* Devil pitchfork SVG logo mark */}
-            <div className="flex items-center justify-center w-12 h-12 rounded-sm bg-[#8B1538]">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2L14 22M14 22L9 26M14 22L19 26M8 6L14 2L20 6M8 6L8 14M20 6L20 14M8 14C8 17.3 10.7 20 14 20C17.3 20 20 17.3 20 14" stroke="#C8A42A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <div>
-              <span className="font-display font-800 text-xl uppercase tracking-tight text-[#8B1538] leading-none block">Devil</span>
-              <span className="font-display font-700 text-xs uppercase tracking-[0.15em] text-[#C8A42A] leading-none block">Insurance</span>
-            </div>
-          </Link>
-
-          {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-7">
-            {NAV_LINKS.map((item) => (
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-[#1a0a0d] border-t border-[#3a1020]">
+          <div className="container-x py-4 space-y-1">
+            {NAV.map((item) => (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
-                className="lj-underline inline-flex items-center gap-1 font-display font-700 text-sm uppercase tracking-wide text-[#1A0A0F] transition-colors hover:text-[#8B1538]"
+                onClick={() => setMobileOpen(false)}
+                className="block px-2 py-2.5 rounded-lg text-steel-light hover:text-bone hover:bg-[#2a0e18] font-medium transition-colors"
               >
                 {item.label}
               </Link>
             ))}
-          </div>
-
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href="/quote" className="btn-primary">
-              <Shield className="w-4 h-4" />
-              Get a Quote
-            </Link>
-          </div>
-
-          {/* Mobile toggle */}
-          <button
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-sm border-2 border-[#8B1538] text-[#8B1538]"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile overlay */}
-      <div
-        className={[
-          "lg:hidden fixed inset-0 z-50 bg-[#5C0A1E] transition-opacity duration-300",
-          open ? "opacity-100 visible" : "pointer-events-none invisible opacity-0",
-        ].join(" ")}
-      >
-        <div className="container-wide flex h-20 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-[#8B1538] border border-[#C8A42A]/40">
-              <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2L14 22M14 22L9 26M14 22L19 26M8 6L14 2L20 6M8 6L8 14M20 6L20 14M8 14C8 17.3 10.7 20 14 20C17.3 20 20 17.3 20 14" stroke="#C8A42A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="font-display font-800 text-lg uppercase text-[#C8A42A]">Devil Insurance</span>
-          </div>
-          <button
-            className="inline-flex h-11 w-11 items-center justify-center rounded-sm border-2 border-gold text-gold"
-            aria-label="Close menu"
-            onClick={() => setOpen(false)}
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        <div className="container-wide mt-6 flex flex-col gap-1">
-          {NAV_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-2 border-b border-white/10 py-4 font-display font-700 text-2xl uppercase tracking-wide text-[#C8A42A] transition-colors hover:text-gold-light"
+            <a
+              href={SITE.phoneHref}
+              className="flex items-center gap-2 px-2 py-2.5 text-[#FFC627] font-heading font-bold"
             >
-              {item.label}
-            </Link>
-          ))}
-          <div className="mt-6">
-            <Link href="/quote" onClick={() => setOpen(false)} className="btn-primary w-full justify-center">
+              <Phone className="w-4 h-4" /> {SITE.phone}
+            </a>
+            <Link
+              href="/quote"
+              onClick={() => setMobileOpen(false)}
+              className="block text-center bg-[#FFC627] text-[#1a0a0d] px-5 py-3 rounded-lg font-heading font-bold uppercase tracking-tight mt-2"
+            >
               Get a Free Quote
             </Link>
           </div>
         </div>
-      </div>
-    </motion.header>
+      )}
+    </header>
   );
 }

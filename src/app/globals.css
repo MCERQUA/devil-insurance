@@ -2,103 +2,157 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root { color-scheme: light; }
-  html { scroll-behavior: smooth; }
-  body { @apply bg-background text-foreground font-body antialiased; }
-  h1, h2, h3, h4 { @apply font-display; }
-  ::selection { background-color: rgba(200,164,42,0.3); }
+:root {
+  --font-heading: "Fraunces", serif;
+  --font-body: "Nunito Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: #1a0a0d;
+  color: #fdf8f2;
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: #8C1D40;
+  color: #fff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 11px;
+}
+::-webkit-scrollbar-track {
+  background: #1a0a0d;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a1020;
+  border-radius: 6px;
+  border: 2px solid #1a0a0d;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8C1D40;
 }
 
 @layer components {
-  .container-wide { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
-  .container-tight { @apply mx-auto w-full max-w-3xl px-5 sm:px-8; }
-
-  .btn-primary {
-    @apply relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-sm bg-gold px-7 py-3.5 font-display font-700 text-maroon-dark text-sm uppercase tracking-widest shadow-card transition-all duration-200 hover:bg-gold-dark hover:-translate-y-0.5;
+  .container-x {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
-  .btn-primary::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
-    transform: translateX(-120%);
-    transition: transform 0.7s ease;
+  .kicker {
+    @apply inline-flex items-center gap-2 text-devil-gold text-xs font-body font-semibold uppercase tracking-[0.2em];
   }
-  .btn-primary:hover::after { transform: translateX(120%); }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm border-2 border-white bg-transparent px-7 py-3.5 font-display font-700 text-white text-sm uppercase tracking-widest transition-all duration-200 hover:bg-white/10;
+  .steel-border {
+    border: 1px solid rgba(255, 198, 39, 0.18);
   }
-  .btn-maroon {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-maroon border-2 border-maroon px-7 py-3.5 font-display font-700 text-white text-sm uppercase tracking-widest transition-all duration-200 hover:bg-maroon-dark;
+  .btn-flame {
+    @apply inline-flex items-center justify-center gap-2 bg-devil-maroon hover:bg-[#a82050] text-white font-heading font-semibold tracking-tight px-7 py-4 rounded-lg transition-colors duration-200 shadow-[0_0_24px_rgba(140,29,64,0.4)];
   }
-  .btn-outline-maroon {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm border-2 border-maroon bg-transparent px-7 py-3.5 font-display font-700 text-maroon text-sm uppercase tracking-widest transition-all duration-200 hover:bg-maroon hover:text-white;
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-devil-gold hover:bg-[#ffd35e] text-devil-dark font-heading font-semibold tracking-tight px-7 py-4 rounded-lg transition-colors duration-200 shadow-[0_0_24px_rgba(255,198,39,0.3)];
   }
-
-  .pill {
-    @apply inline-flex items-center gap-2 rounded-sm border border-border bg-white px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-maroon-dark;
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-devil-gold/40 hover:border-devil-gold text-[#fdf8f2] hover:text-devil-gold font-heading font-semibold tracking-tight px-7 py-4 rounded-lg transition-colors duration-200;
   }
-  .pill-accent {
-    @apply inline-flex items-center gap-2 rounded-sm border border-gold/40 bg-gold/15 px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-maroon-dark;
-  }
-  .pill-primary {
-    @apply inline-flex items-center gap-2 rounded-sm bg-maroon-dark px-3.5 py-1.5 text-xs font-display font-700 uppercase tracking-widest text-gold;
-  }
-
-  .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-display font-700 uppercase tracking-[0.18em] text-gold-dark;
-  }
-  .h-section {
-    @apply font-display font-700 uppercase text-maroon-dark text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.05] tracking-tight;
-  }
-  .lead {
-    @apply text-lg text-muted-foreground leading-relaxed;
+  .card-dark {
+    @apply bg-[#2a0e18] rounded-xl steel-border;
   }
 }
 
-@layer utilities {
-  .bg-devil-gradient {
-    background-image: linear-gradient(135deg, #5C0A1E 0%, #8B1538 55%, #B01E45 100%);
-  }
-  .bg-maroon-texture {
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(200,164,42,0.04) 10px,
-      rgba(200,164,42,0.04) 12px
-    );
-  }
-  .bg-card-pale { background-color: #F5F0F0; }
-  .bg-gold-pale { background-color: #FBF6E6; }
-
-  @keyframes devil-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-  .devil-float { animation: devil-float 5s ease-in-out infinite; }
-
-  @keyframes devil-glow { 0%,100% { opacity:.55; transform: scale(1); } 50% { opacity:.9; transform: scale(1.08); } }
-  .devil-glow { animation: devil-glow 4.5s ease-in-out infinite; }
-
-  @keyframes devil-shine { 0% { background-position: -150% 0; } 100% { background-position: 250% 0; } }
-  .devil-shine-text {
-    background: linear-gradient(110deg, #C8A42A 35%, #F5E099 50%, #C8A42A 65%);
-    background-size: 250% 100%;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: devil-shine 4s linear infinite;
-  }
-
-  .lj-underline { position: relative; }
-  .lj-underline::after {
-    content:""; position:absolute; left:0; bottom:-4px; height:2px; width:100%;
-    background:#C8A42A; transform: scaleX(0); transform-origin:left; transition: transform .3s ease;
-  }
-  .lj-underline:hover::after, .lj-underline[data-active="true"]::after { transform: scaleX(1); }
-
-  @keyframes lj-bounce { 0%,100% { transform: translateY(0); opacity:.7 } 50% { transform: translateY(8px); opacity:1 } }
-  .lj-bounce { animation: lj-bounce 1.8s ease-in-out infinite; }
+.prose-hood {
+  color: #c9a0a8;
+  line-height: 1.75;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .devil-float, .devil-glow, .devil-shine-text, .lj-bounce { animation: none !important; }
+.prose-hood h2 {
+  color: #fdf8f2;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.9rem;
+  line-height: 1.2;
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 6rem;
+}
+.prose-hood h3 {
+  color: #fdf8f2;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.35rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-hood p {
+  margin-bottom: 1.25rem;
+}
+.prose-hood ul,
+.prose-hood ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+.prose-hood ul {
+  list-style-type: none;
+}
+.prose-hood ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+.prose-hood ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 7px;
+  height: 7px;
+  background: #FFC627;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.prose-hood ol {
+  list-style-type: decimal;
+}
+.prose-hood ol li {
+  margin-bottom: 0.6rem;
+}
+.prose-hood a {
+  color: #FFC627;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-hood strong {
+  color: #fdf8f2;
+  font-weight: 600;
+}
+.prose-hood blockquote {
+  border-left: 3px solid #FFC627;
+  padding-left: 1.25rem;
+  margin: 1.75rem 0;
+  color: #fdf8f2;
+  font-style: italic;
+}
+.prose-hood table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.95rem;
+}
+.prose-hood th {
+  background: #2a0e18;
+  color: #fdf8f2;
+  font-family: var(--font-heading);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid #3a1020;
+}
+.prose-hood td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #3a1020;
+  color: #c9a0a8;
+}
+.prose-hood tr:nth-child(even) td {
+  background: #150608;
 }

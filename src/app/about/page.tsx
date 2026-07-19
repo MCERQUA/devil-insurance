@@ -1,72 +1,169 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Phone,
+  ArrowRight,
+  ShieldCheck,
+  Star,
+  CheckCircle2,
+  Heart,
+  Users,
+  TrendingDown,
+} from "lucide-react";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
+import { CTABand } from "@/components/sections/CTABand";
+import { Breadcrumbs } from "@/components/sections/Breadcrumbs";
 import { FadeIn } from "@/components/animations/FadeIn";
-import { CheckCircle, ArrowRight, Shield, MapPin, Award } from "lucide-react";
 import { SITE } from "@/lib/site";
+import { breadcrumbSchema, JsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "About Devil Insurance — Tempe & East Valley Local Agency",
-  description: "Devil Insurance is a Tempe-area local insurance agency by Contractors Choice Agency. Founded 2005, licensed all 50 states. Home, auto, business, landlord & renters for the East Valley.",
-  alternates: { canonical: `${SITE.url}/about` },
+  title: "About Devil Insurance — Your Helpful Devil Insurance Agent",
+  description:
+    "Devil Insurance is an independent insurance agency that shops dozens of top-rated carriers to find you the best coverage at the best price. Home, auto, business, life, and specialty insurance.",
+  alternates: { canonical: "/about/" },
 };
+
+const VALUES = [
+  {
+    icon: TrendingDown,
+    title: "We Shop The Market",
+    body: "We work with dozens of top-rated carriers and compare rates simultaneously. You get the best price without spending hours on the phone.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Real Coverage, No Gaps",
+    body: "We read the fine print so you don't have to. We flag coverage gaps and make sure you're protected for what actually matters.",
+  },
+  {
+    icon: Star,
+    title: "Claims Advocacy",
+    body: "When you have a claim, we're your advocate — not the insurance company's. We know how the process works and help you get a fair settlement.",
+  },
+  {
+    icon: CheckCircle2,
+    title: "Zero Pressure",
+    body: "We make a recommendation. You decide. Free quotes, no obligation, no pushy tactics. Ever.",
+  },
+  {
+    icon: Users,
+    title: "Independent Agent",
+    body: "We're not tied to any single carrier. Our job is to find the best fit for you — not to hit a quota for any one company.",
+  },
+  {
+    icon: Heart,
+    title: "Long-Term Relationship",
+    body: "We review your coverage annually and reach out when rates change or better options become available. We're your agent for the long haul.",
+  },
+];
 
 export default function AboutPage() {
   return (
     <>
       <Navbar />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: SITE.url },
+          { name: "About", url: `${SITE.url}/about/` },
+        ])}
+      />
       <main>
-        <section className="bg-[#3D0612] pt-32 pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#3D0612] to-[#8B1538]/60" />
-          <div className="relative container-wide z-10">
-            <FadeIn>
-              <div className="max-w-3xl">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#C8A42A]/20 border border-[#C8A42A]/40 mb-6">
-                  <Shield className="w-4 h-4 text-[#C8A42A]" />
-                  <span className="text-xs font-display font-700 uppercase tracking-widest text-[#C8A42A]">About Us</span>
-                </div>
-                <h1 className="font-display font-800 uppercase text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4">
-                  Tempe&apos;s Local<br />Insurance Agency
-                </h1>
-                <p className="text-xl text-white/80 font-body leading-relaxed">
-                  Devil Insurance is a specialized brand of Contractors Choice Agency — built for the Tempe community and the East Valley. We bring 20+ years of Arizona insurance experience with a local, neighbor-first approach.
-                </p>
+        {/* HERO */}
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d]" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl" />
+          </div>
+          <div className="container-x relative z-10">
+            <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "About" }]} />
+            <div className="max-w-3xl">
+              <div className="kicker mb-4">
+                <ShieldCheck className="w-4 h-4" /> Independent Insurance Agency
               </div>
-            </FadeIn>
+              <h1 className="font-heading font-semibold text-4xl sm:text-5xl text-bone leading-tight mb-5">
+                The Helpful Devil Insurance Agent
+              </h1>
+              <p className="text-steel-light font-body text-lg leading-relaxed">
+                Devil Insurance is an independent agency that fights like the
+                devil to get you the best rate — but we&apos;re on your side.
+                We shop dozens of carriers, compare coverage side by side, and
+                advocate for you when something goes wrong.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="py-20 bg-white">
-          <div className="container-wide">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <FadeIn direction="right">
-                <div>
-                  <p className="eyebrow mb-3">Our Story</p>
-                  <h2 className="h-section mb-6">Built for the East Valley</h2>
-                  <div className="space-y-5 text-[#6B5B5F] font-body leading-relaxed">
-                    <p>
-                      Devil Insurance was created for one purpose: to give Tempe and the East Valley a local insurance agency that actually knows the community — not a national franchise that treats Arizona like a pin on a map.
-                    </p>
-                    <p>
-                      Founded as part of Contractors Choice Agency in 2005 by Josh Cotner, who spent years in the contracting industry before transitioning to insurance, we understand risk from the inside out. Josh saw how contractors, homeowners, and small business owners were underserved by big carriers — getting cookie-cutter policies that didn&apos;t fit their real lives.
-                    </p>
-                    <p>
-                      That founding mission shapes every policy we write. We shop multiple A-rated carriers for every client, explain coverage in plain language, and stay available when you need us — not just when you&apos;re signing up.
-                    </p>
-                    <p>
-                      The &quot;Devil&quot; name celebrates East Valley community spirit. We know Tempe. We know Mesa, Chandler, Gilbert, and Scottsdale. We&apos;re your neighbors — and we take that responsibility seriously.
-                    </p>
-                  </div>
+        {/* STORY */}
+        <section className="py-16 sm:py-20">
+          <div className="container-x">
+            <div className="grid lg:grid-cols-2 gap-12 items-start">
+              <FadeIn>
+                <div className="prose-hood max-w-none">
+                  <h2>Why We Started Devil Insurance</h2>
+                  <p>
+                    Most people buy insurance the same way they&apos;ve always done
+                    it — call the carrier their parents used, or go direct to the
+                    company with the catchiest commercial. They get one price, take
+                    it or leave it, and never know if they paid too much.
+                  </p>
+                  <p>
+                    We started Devil Insurance because there&apos;s a better way. As
+                    an independent agency, we work with dozens of top-rated
+                    carriers and compare rates simultaneously. Our clients
+                    consistently save hundreds of dollars a year just by letting
+                    us do the shopping.
+                  </p>
+                  <h2>What Makes an Independent Agent Different</h2>
+                  <p>
+                    When you call a direct carrier, you&apos;re talking to someone
+                    whose job is to sell you that company&apos;s product. When you
+                    call Devil Insurance, you&apos;re talking to someone whose job is
+                    to find you the best policy across the entire market.
+                  </p>
+                  <p>
+                    We&apos;re a Contractors Choice Agency company serving Arizona
+                    and clients nationwide. Our promise is simple: free quotes,
+                    honest recommendations, and an advocate in your corner when
+                    you need it most.
+                  </p>
                 </div>
               </FadeIn>
-              <FadeIn direction="left">
-                <div className="relative">
-                  <Image src="/images/about.jpg" alt="Devil Insurance local Tempe agents" width={600} height={480} className="object-cover rounded-sm shadow-lift w-full" unoptimized />
-                  <div className="absolute -bottom-4 -left-4 bg-[#8B1538] p-5 rounded-sm shadow-lift">
-                    <p className="font-display font-800 uppercase text-[#C8A42A] text-3xl leading-none">20+</p>
-                    <p className="font-body text-xs text-white/70 mt-1">Years Protecting AZ Families</p>
+
+              <FadeIn delay={0.1}>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { v: "30+", l: "top-rated carriers compared" },
+                    { v: "10–25%", l: "average bundle savings" },
+                    { v: "15 min", l: "average time to get a quote" },
+                    { v: "100%", l: "free quotes, always" },
+                  ].map((s) => (
+                    <div key={s.l} className="card-dark p-6 text-center">
+                      <div className="font-heading font-semibold text-3xl text-[#FFC627] mb-1">
+                        {s.v}
+                      </div>
+                      <div className="text-steel text-sm font-body leading-snug">
+                        {s.l}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="col-span-2 card-dark p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Phone className="w-5 h-5 text-[#FFC627]" />
+                      <span className="font-heading font-semibold text-bone">
+                        Talk to an agent
+                      </span>
+                    </div>
+                    <a
+                      href={SITE.phoneHref}
+                      className="font-heading font-semibold text-2xl text-[#FFC627]"
+                    >
+                      {SITE.phone}
+                    </a>
+                    <p className="text-steel text-sm font-body mt-1">
+                      {SITE.hours}
+                    </p>
                   </div>
                 </div>
               </FadeIn>
@@ -74,65 +171,90 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-20 bg-[#F5F0F0]">
-          <div className="container-wide">
+        {/* VALUES */}
+        <section className="py-16 sm:py-20 bg-[#150608] border-y border-[#3a1020]">
+          <div className="container-x">
             <FadeIn>
-              <div className="text-center mb-14">
-                <p className="eyebrow mb-3">What We Stand For</p>
-                <h2 className="h-section mb-4">Our Values</h2>
+              <div className="max-w-2xl mb-12">
+                <div className="kicker mb-3">How We Work</div>
+                <h2 className="font-heading font-semibold text-3xl sm:text-4xl text-bone leading-tight">
+                  Six Commitments on Every Policy
+                </h2>
               </div>
             </FadeIn>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { icon: MapPin, title: "Local First", desc: "We serve the community we live in. East Valley families and businesses get local expertise — not call-center indifference." },
-                { icon: Award, title: "Carrier Independence", desc: "We're not captive to one insurance company. We shop multiple A-rated carriers to find your best rate and coverage combination." },
-                { icon: CheckCircle, title: "Transparency", desc: "No hidden fees, no upsells you don't need. We explain every policy in plain language before you sign anything." },
-                { icon: Shield, title: "Claims Support", desc: "When you have a claim, we help you navigate it. A real person walks you through the process from start to finish." },
-                { icon: Award, title: "Long-Term Relationships", desc: "We review your coverage annually and proactively flag gaps — not just at renewal time when it's too late." },
-                { icon: MapPin, title: "Community Commitment", desc: "Devil Insurance is invested in the East Valley's growth. When the community wins, we win." },
-              ].map((item, i) => (
-                <FadeIn key={item.title} delay={i * 0.07}>
-                  <div className="p-6 rounded-sm bg-white border border-gray-200 hover:border-[#8B1538]/30 hover:shadow-card transition-all">
-                    <div className="w-10 h-10 rounded-sm bg-[#8B1538] flex items-center justify-center mb-4">
-                      <item.icon className="w-5 h-5 text-[#C8A42A]" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {VALUES.map((v, i) => (
+                <FadeIn key={v.title} delay={(i % 3) * 0.07}>
+                  <div className="card-dark p-6 h-full">
+                    <div className="w-12 h-12 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center mb-5">
+                      <v.icon className="w-6 h-6 text-[#FFC627]" />
                     </div>
-                    <h3 className="font-display font-700 uppercase text-[#8B1538] text-lg mb-2">{item.title}</h3>
-                    <p className="text-sm text-[#6B5B5F] leading-relaxed font-body">{item.desc}</p>
+                    <h3 className="font-heading font-semibold text-bone text-lg mb-2">
+                      {v.title}
+                    </h3>
+                    <p className="text-steel text-sm font-body leading-relaxed">
+                      {v.body}
+                    </p>
                   </div>
                 </FadeIn>
               ))}
             </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-white">
-          <div className="container-wide max-w-4xl">
-            <FadeIn>
-              <div className="bg-[#F5F0F0] border border-gray-200 rounded-sm p-8 md:p-12">
-                <h2 className="h-section mb-6">Licensing &amp; Credentials</h2>
-                <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                  {[
-                    "Licensed in Arizona and all 50 states",
-                    "NPN #8608479 — National Producer Number",
-                    "Founded 2005 — Contractors Choice Agency",
-                    "A-rated carrier partnerships",
-                    "E&O insured (Errors & Omissions coverage)",
-                    "Member — Independent Insurance Agents & Brokers",
-                  ].map((c) => (
-                    <div key={c} className="flex items-center gap-2.5">
-                      <CheckCircle className="w-5 h-5 text-[#C8A42A] flex-shrink-0" />
-                      <span className="text-sm text-[#6B5B5F] font-body">{c}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  <Link href="/quote" className="btn-primary">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
-                  <Link href="/contact" className="btn-outline-maroon">Contact Us <ArrowRight className="w-4 h-4" /></Link>
-                </div>
+            <FadeIn delay={0.1}>
+              <div className="mt-10 text-center">
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold hover:gap-3 transition-all"
+                >
+                  Explore all coverage types <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </FadeIn>
           </div>
         </section>
+
+        {/* Mascot section */}
+        <section className="py-16 sm:py-20">
+          <div className="container-x">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <FadeIn>
+                <div className="kicker mb-3">The Devil Mascot</div>
+                <h2 className="font-heading font-semibold text-3xl sm:text-4xl text-bone leading-tight mb-5">
+                  Why a Devil? Because We Fight for You.
+                </h2>
+                <p className="text-steel-light font-body text-lg leading-relaxed mb-5">
+                  Insurance companies have lawyers, adjusters, and actuaries
+                  working for them. You should have someone fighting for you
+                  too.
+                </p>
+                <p className="text-steel-light font-body text-lg leading-relaxed mb-6">
+                  Our Sun Devil mascot represents exactly what we are: a
+                  scrappy, Arizona-proud advocate who fights like the devil to
+                  get clients the best rate and the fairest claim settlement.
+                  The &ldquo;helpful devil&rdquo; — on your side.
+                </p>
+                <Link href="/quote" className="btn-gold">
+                  Get a Free Quote <ArrowRight className="w-4 h-4" />
+                </Link>
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <div className="flex items-center justify-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 rounded-full bg-[#FFC627]/10 blur-2xl scale-110" />
+                    <Image
+                      src="/images/devil-logo.png"
+                      alt="Devil Insurance mascot"
+                      width={360}
+                      height={360}
+                      className="relative z-10 drop-shadow-2xl max-w-[280px] sm:max-w-[360px] w-full"
+                    />
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </section>
+
+        <CTABand />
       </main>
       <Footer />
     </>

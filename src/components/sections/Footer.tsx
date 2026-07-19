@@ -1,61 +1,103 @@
-"use client";
-
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { SITE } from "@/lib/site";
+import Image from "next/image";
+import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
+import { SITE, SERVICES } from "@/lib/site";
 
-const QUICK_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Insurance", href: "/services" },
-  { label: "Coverage Area", href: "/coverage" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
-];
-
-const SERVICE_LINKS = [
-  { label: "Home Insurance", href: "/services/home-insurance" },
-  { label: "Auto Insurance", href: "/services/auto-insurance" },
-  { label: "Business Insurance", href: "/services/business-insurance" },
-  { label: "Landlord Insurance", href: "/services/landlord-insurance" },
-  { label: "Renters Insurance", href: "/services/renters-insurance" },
+const TRUST_BADGES = [
+  "Independent Agent",
+  "Top-Rated Carriers",
+  "Free Quotes",
+  "Claims Advocacy",
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-[#3D0612] pt-16 pb-8">
-      <div className="container-wide">
-        <div className="grid gap-10 md:grid-cols-4">
+    <footer className="bg-[#150608] border-t border-[#3a1020]">
+      {/* Trust strip */}
+      <div className="border-b border-[#3a1020]">
+        <div className="container-x py-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {TRUST_BADGES.map((c) => (
+              <div key={c} className="flex items-center gap-2 text-steel-light text-sm font-body">
+                <ShieldCheck className="w-4 h-4 text-[#FFC627]" />
+                {c}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="container-x py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand col */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center justify-center w-12 h-12 rounded-sm bg-[#8B1538] border border-[#C8A42A]/30">
-                <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 2L14 22M14 22L9 26M14 22L19 26M8 6L14 2L20 6M8 6L8 14M20 6L20 14M8 14C8 17.3 10.7 20 14 20C17.3 20 20 17.3 20 14" stroke="#C8A42A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div>
-                <span className="font-display font-800 text-xl uppercase text-[#C8A42A] leading-none block">Devil</span>
-                <span className="font-display font-600 text-xs uppercase tracking-widest text-white/60 leading-none block">Insurance</span>
-              </div>
-            </div>
-            <p className="font-body text-sm text-white/70 leading-relaxed mb-3">
-              Tempe&apos;s hometown insurance agency — protecting East Valley families and businesses.
+          <div>
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <Image
+                src="/images/devil-logo.png"
+                alt="Devil Insurance"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain"
+              />
+              <span className="font-heading font-semibold text-lg tracking-tight text-bone">
+                Devil <span className="text-[#FFC627]">Insurance</span>
+              </span>
+            </Link>
+            <p className="text-steel text-sm font-body leading-relaxed mb-2">
+              Protect What Matters
             </p>
-            <p className="font-body text-xs text-white/40">
-              A program of Contractors Choice Agency
+            <p className="text-steel text-sm font-body leading-relaxed mb-5">
+              Your helpful devil insurance agent. We shop dozens of top
+              carriers so you get the best coverage at the best price — home,
+              auto, business, life, and more.
             </p>
+            <a
+              href={SITE.phoneHref}
+              className="inline-flex items-center gap-2 text-bone hover:text-[#FFC627] font-heading font-bold transition-colors"
+            >
+              <Phone className="w-4 h-4 text-[#FFC627]" />
+              {SITE.phone}
+            </a>
           </div>
 
-          {/* Quick links */}
+          {/* Services col */}
           <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider text-[#C8A42A] mb-4">
-              Quick Links
-            </h4>
-            <ul className="space-y-1">
-              {QUICK_LINKS.map((l) => (
-                <li key={l.label}>
-                  <Link href={l.href} className="block py-1 font-body text-sm text-white/70 hover:text-[#C8A42A] transition-colors">
+            <h3 className="font-heading font-bold text-bone text-sm uppercase tracking-wider mb-4">
+              Insurance Types
+            </h3>
+            <ul className="space-y-2.5">
+              {SERVICES.map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    href={`/services/${s.slug}`}
+                    className="text-steel hover:text-[#FFC627] text-sm font-body transition-colors"
+                  >
+                    {s.navTitle} Insurance
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company col */}
+          <div>
+            <h3 className="font-heading font-bold text-bone text-sm uppercase tracking-wider mb-4">
+              Company
+            </h3>
+            <ul className="space-y-2.5">
+              {[
+                { label: "Service Areas", href: "/service-areas" },
+                { label: "About Us", href: "/about" },
+                { label: "FAQ", href: "/faq" },
+                { label: "Blog", href: "/blog" },
+                { label: "Contact", href: "/contact" },
+                { label: "Get a Free Quote", href: "/quote" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-steel hover:text-[#FFC627] text-sm font-body transition-colors"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -63,57 +105,59 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Contact col */}
           <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider text-[#C8A42A] mb-4">
-              Insurance Lines
-            </h4>
-            <ul className="space-y-1">
-              {SERVICE_LINKS.map((l) => (
-                <li key={l.label}>
-                  <Link href={l.href} className="block py-1 font-body text-sm text-white/70 hover:text-[#C8A42A] transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider text-[#C8A42A] mb-4">
+            <h3 className="font-heading font-bold text-bone text-sm uppercase tracking-wider mb-4">
               Contact
-            </h4>
+            </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2.5 font-body text-sm text-white/70">
-                <MapPin className="w-4 h-4 mt-0.5 text-[#C8A42A] flex-shrink-0" />
-                <span>12220 E Riggs Road Suite #105<br />Chandler, AZ 85249</span>
-              </li>
-              <li>
-                <a href={SITE.phoneHref} className="flex items-center gap-2.5 font-body text-sm text-white/70 hover:text-[#C8A42A] transition-colors">
-                  <Phone className="w-4 h-4 text-[#C8A42A]" />
+              <li className="flex items-start gap-2.5 text-steel text-sm">
+                <Phone className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                <a href={SITE.phoneHref} className="hover:text-[#FFC627] transition-colors">
                   {SITE.phone}
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${SITE.email}`} className="flex items-center gap-2.5 font-body text-sm text-white/70 hover:text-[#C8A42A] transition-colors break-all">
-                  <Mail className="w-4 h-4 text-[#C8A42A] flex-shrink-0" />
+              <li className="flex items-start gap-2.5 text-steel text-sm">
+                <Mail className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                <a
+                  href={`mailto:${SITE.email}`}
+                  className="hover:text-[#FFC627] transition-colors break-all"
+                >
                   {SITE.email}
                 </a>
               </li>
-              <li className="font-body text-xs text-white/50">{SITE.hours}</li>
+              <li className="flex items-start gap-2.5 text-steel text-sm">
+                <MapPin className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                Arizona &amp; Nationwide
+              </li>
+              <li className="flex items-start gap-2.5 text-steel text-sm">
+                <Clock className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                {SITE.hours}
+              </li>
             </ul>
           </div>
         </div>
+      </div>
 
-        <div className="border-t border-[#C8A42A]/20 mt-10 pt-6 flex flex-col gap-2 sm:flex-row sm:justify-between text-xs text-white/40">
-          <p>
-            © {new Date().getFullYear()} Devil Insurance · A Contractors Choice Agency Brand · NPN #{SITE.npn} · Licensed in Arizona &amp; All 50 States
+      <div className="border-t border-[#3a1020]">
+        <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-steel-dark text-xs font-body">
+            © {new Date().getFullYear()} {SITE.name}. All rights reserved.
           </p>
-          <p className="flex gap-4">
-            <Link href="/privacy" className="hover:text-[#C8A42A] transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-[#C8A42A] transition-colors">Terms of Service</Link>
-          </p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/privacy"
+              className="text-steel-dark hover:text-steel text-xs transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-steel-dark hover:text-steel text-xs transition-colors"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,15 +1,15 @@
-import { Barlow_Condensed, Barlow } from "next/font/google";
+import { Fraunces, Nunito_Sans } from "next/font/google";
 
-export const displayFont = Barlow_Condensed({
+export const heading = Fraunces({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-heading",
   display: "swap",
-  variable: "--font-display",
-  weight: ["400", "600", "700", "800"],
 });
 
-export const bodyFont = Barlow({
+export const body = Nunito_Sans({
   subsets: ["latin"],
-  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });

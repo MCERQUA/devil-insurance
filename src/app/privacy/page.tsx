@@ -1,39 +1,88 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
+import { Breadcrumbs } from "@/components/sections/Breadcrumbs";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Devil Insurance privacy policy — how we collect, use, and protect your personal information.",
-  alternates: { canonical: `${SITE.url}/privacy` },
-  robots: { index: false, follow: false },
+  description:
+    "How Devil Insurance collects, uses, and protects the information you share when requesting a quote or contacting us.",
+  alternates: { canonical: "/privacy/" },
+  robots: { index: false, follow: true },
 };
 
 export default function PrivacyPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-32 pb-24 bg-white">
-        <div className="container-tight">
-          <h1 className="font-display font-800 uppercase text-[#8B1538] text-4xl mb-8">Privacy Policy</h1>
-          <div className="prose prose-sm max-w-none text-[#6B5B5F] font-body leading-relaxed space-y-6">
-            <p className="text-xs text-[#6B5B5F]">Last updated: June 2026</p>
-            <p>Devil Insurance, a brand of Contractors Choice Agency (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), operates {SITE.url}. This Privacy Policy explains how we collect, use, and safeguard information when you visit our website or contact us.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">Information We Collect</h2>
-            <p>We collect information you voluntarily provide — name, email address, phone number, and insurance needs — when you submit quote requests or contact forms. We also collect standard web analytics data (pages visited, referring URLs, browser type) through aggregated, anonymized tools.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">How We Use Your Information</h2>
-            <p>We use your information to respond to quote requests, communicate about your insurance needs, and improve our services. We do not sell, rent, or trade your personal information to third parties. We may share information with insurance carriers as necessary to provide quotes and bind coverage.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">Traffic Source Capture</h2>
-            <p>Our quote and contact forms capture the traffic source (e.g., referring website or UTM parameter) and landing URL of each submission. This data is used solely to understand which channels generate insurance leads and is never shared with third parties for marketing purposes.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">Cookies</h2>
-            <p>We use essential cookies to support website functionality. We do not use advertising cookies or third-party tracking cookies.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">Data Retention</h2>
-            <p>We retain contact form submissions for up to 3 years for follow-up and compliance purposes. You may request deletion of your data by contacting us at {SITE.email}.</p>
-            <h2 className="font-display font-700 uppercase text-[#8B1538] text-xl">Contact</h2>
-            <p>Questions about this Privacy Policy: <a href={`mailto:${SITE.email}`} className="text-[#8B1538] hover:underline">{SITE.email}</a> · {SITE.phone}</p>
+      <main>
+        <section className="pt-32 pb-14 bg-charcoal-800 border-b border-charcoal-light">
+          <div className="container-x max-w-3xl">
+            <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Privacy Policy" }]} />
+            <h1 className="font-heading font-bold text-4xl text-bone">
+              Privacy Policy
+            </h1>
           </div>
-        </div>
+        </section>
+        <section className="py-16">
+          <div className="container-x max-w-3xl">
+            <div className="prose-hood max-w-none">
+              <p>
+                Devil Insurance (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
+                respects your privacy. This policy explains what information we collect
+                when you use our website and how we use it.
+              </p>
+              <h2>Information We Collect</h2>
+              <p>
+                When you request a quote or contact us, we collect the information you
+                voluntarily provide — such as your name, phone number, email address,
+                city, and details about your property and the project you have in mind.
+                We may also collect basic, non-identifying analytics data about how
+                visitors use the site.
+              </p>
+              <h2>How We Use Your Information</h2>
+              <ul>
+                <li>To prepare and deliver an insurance quote for your requested coverage</li>
+                <li>To connect you with a licensed agent for a free consultation</li>
+                <li>To respond to your questions and communicate about your policy</li>
+                <li>To send policy renewal notices and updates you request</li>
+                <li>To improve our website and services</li>
+              </ul>
+              <h2>Information Sharing</h2>
+              <p>
+                We do not sell your personal information. We share it only with service
+                providers who help us operate our business (for example, scheduling or
+                communications tools) and only as needed to provide the services you
+                request, or where required by law.
+              </p>
+              <h2>Data Security</h2>
+              <p>
+                We take reasonable measures to protect the information you provide.
+                However, no method of transmission over the internet is completely
+                secure, and we cannot guarantee absolute security.
+              </p>
+              <h2>Your Choices</h2>
+              <p>
+                You may request that we update or delete your information, or opt out of
+                non-essential communications, by contacting us at{" "}
+                <a href={`mailto:${SITE.email}`}>{SITE.email}</a> or{" "}
+                <a href={SITE.phoneHref}>{SITE.phone}</a>.
+              </p>
+              <h2>Changes to This Policy</h2>
+              <p>
+                We may update this policy from time to time. Material changes will be
+                posted on this page.
+              </p>
+              <h2>Contact</h2>
+              <p>
+                Questions about this policy? Reach us at{" "}
+                <a href={`mailto:${SITE.email}`}>{SITE.email}</a> or{" "}
+                <a href={SITE.phoneHref}>{SITE.phone}</a>.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

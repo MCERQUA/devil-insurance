@@ -1,88 +1,107 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Home,
+  Car,
+  Building2,
+  Heart,
+  KeyRound,
+  Sparkles,
+} from "lucide-react";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
+import { CTABand } from "@/components/sections/CTABand";
+import { Breadcrumbs } from "@/components/sections/Breadcrumbs";
 import { FadeIn } from "@/components/animations/FadeIn";
-import { ArrowRight, Home, Car, Building2, KeyRound, ShieldCheck, Shield } from "lucide-react";
 import { SITE, SERVICES } from "@/lib/site";
+import { breadcrumbSchema, servicesSchema, JsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Insurance Coverage Lines — Home, Auto, Business, Landlord, Renters",
-  description: "Devil Insurance offers home, auto, business, landlord, and renters insurance for Tempe and the East Valley. Local agents, multiple carriers, same-day quotes.",
-  alternates: { canonical: `${SITE.url}/services` },
+  title: "Insurance Services — Home, Auto, Business & More | Devil Insurance",
+  description:
+    "Devil Insurance offers home, auto, business, life, renters, and specialty insurance. We shop dozens of top-rated carriers to find you the best coverage at the best price.",
+  alternates: { canonical: "/services/" },
 };
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  Home, Car, Building2, KeyRound, ShieldCheck,
+const SERVICE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  Home,
+  Car,
+  Building2,
+  Heart,
+  KeyRound,
+  Sparkles,
 };
 
-const SERVICE_IMAGES: Record<string, string> = {
-  "home-insurance": "/images/home-insurance.jpg",
-  "auto-insurance": "/images/auto-insurance.jpg",
-  "business-insurance": "/images/business-insurance.jpg",
-  "landlord-insurance": "/images/landlord-insurance.jpg",
-  "renters-insurance": "/images/renters-insurance.jpg",
-};
-
-export default function ServicesPage() {
+export default function ServicesIndexPage() {
   return (
     <>
       <Navbar />
+      <JsonLd
+        data={[
+          breadcrumbSchema([
+            { name: "Home", url: SITE.url },
+            { name: "Services", url: `${SITE.url}/services/` },
+          ]),
+          ...servicesSchema(),
+        ]}
+      />
       <main>
-        <section className="bg-[#F5F0F0] pt-32 pb-16">
-          <div className="container-wide">
-            <FadeIn>
-              <div className="text-center max-w-3xl mx-auto">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#8B1538] mb-6">
-                  <Shield className="w-4 h-4 text-[#C8A42A]" />
-                  <span className="text-xs font-display font-700 uppercase tracking-widest text-[#C8A42A]">Coverage Lines</span>
-                </div>
-                <h1 className="font-display font-800 uppercase text-[#8B1538] text-4xl sm:text-5xl mb-4 tracking-tight">
-                  Insurance for Every East Valley Need
-                </h1>
-                <p className="text-lg text-[#6B5B5F] leading-relaxed">
-                  Five coverage lines. One local agency. Multiple A-rated carriers shopped for every quote.
-                </p>
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-[0.04] bg-hazard-stripes"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="container-x relative">
+            <Breadcrumbs
+              items={[{ name: "Home", href: "/" }, { name: "Services" }]}
+            />
+            <div className="max-w-3xl">
+              <div className="kicker mb-4">
+                <ShieldCheck className="w-4 h-4" /> Coverage We Shop For You
               </div>
-            </FadeIn>
+              <h1 className="font-heading font-semibold text-4xl sm:text-5xl text-bone leading-tight mb-5">
+                Every Type of Insurance, One Independent Agent
+              </h1>
+              <p className="text-steel-light font-body text-lg leading-relaxed">
+                Six coverage categories, dozens of top-rated carriers, one
+                agent who fights to get you the best deal on all of it.
+                Free quotes, no obligation — ever.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="py-20 bg-white">
-          <div className="container-wide">
-            <div className="space-y-16">
+        <section className="py-16 sm:py-20">
+          <div className="container-x">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {SERVICES.map((s, i) => {
-                const IconComp = ICON_MAP[s.icon] ?? ShieldCheck;
-                const img = SERVICE_IMAGES[s.slug] ?? "/images/hero.jpg";
+                const Icon = SERVICE_ICONS[s.icon] ?? ShieldCheck;
                 return (
-                  <FadeIn key={s.slug} delay={i * 0.05}>
-                    <div className={`grid lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
-                      <div className={i % 2 === 1 ? "lg:col-start-2" : ""}>
-                        <div className="w-14 h-14 rounded-sm bg-[#8B1538] flex items-center justify-center mb-5">
-                          <IconComp className="w-7 h-7 text-[#C8A42A]" />
-                        </div>
-                        <h2 className="font-display font-800 uppercase text-[#8B1538] text-3xl sm:text-4xl mb-3">{s.title}</h2>
-                        <p className="text-lg text-[#6B5B5F] leading-relaxed mb-6">{s.description}</p>
-                        <div className="grid grid-cols-2 gap-2 mb-8">
-                          {s.coverage.map((c) => (
-                            <div key={c} className="flex items-center gap-2 text-sm text-[#1A0A0F]">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#C8A42A] flex-shrink-0" />
-                              {c}
-                            </div>
-                          ))}
-                        </div>
-                        <Link href={`/services/${s.slug}`} className="btn-maroon">
-                          Learn More <ArrowRight className="w-4 h-4" />
-                        </Link>
+                  <FadeIn key={s.slug} delay={(i % 2) * 0.08}>
+                    <Link
+                      href={`/services/${s.slug}`}
+                      className="group flex gap-6 card-dark overflow-hidden hover:border-[#FFC627]/40 transition-colors h-full p-6"
+                    >
+                      <div className="w-14 h-14 rounded-xl bg-[#8C1D40]/30 flex items-center justify-center shrink-0 group-hover:bg-[#8C1D40]/50 transition-colors">
+                        <Icon className="w-7 h-7 text-[#FFC627]" />
                       </div>
-                      <div className={i % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}>
-                        <div className="rounded-sm overflow-hidden shadow-lift">
-                          <Image src={img} alt={s.title} width={600} height={420} className="object-cover w-full" unoptimized />
-                        </div>
+                      <div>
+                        <h2 className="font-heading font-bold text-bone text-xl mb-2 leading-snug">
+                          {s.navTitle} Insurance
+                        </h2>
+                        <p className="text-steel text-sm font-body leading-relaxed mb-4">
+                          {s.blurb}
+                        </p>
+                        <span className="inline-flex items-center gap-1.5 text-[#FFC627] text-sm font-heading font-semibold">
+                          Learn more{" "}
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </span>
                       </div>
-                    </div>
-                    {i < SERVICES.length - 1 && <div className="border-t border-gray-100 mt-16" />}
+                    </Link>
                   </FadeIn>
                 );
               })}
@@ -90,18 +109,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section className="py-16 bg-devil-gradient">
-          <div className="container-wide text-center">
-            <FadeIn>
-              <h2 className="font-display font-800 uppercase text-white text-3xl sm:text-4xl mb-4">Ready for a Quote?</h2>
-              <p className="text-white/80 text-lg mb-8 font-body">Local agents. Same-day quotes. Multiple carriers compared for you.</p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link href="/quote" className="btn-primary">Get a Free Quote <ArrowRight className="w-4 h-4" /></Link>
-                <a href={SITE.phoneHref} className="btn-secondary">Call {SITE.phone}</a>
-              </div>
-            </FadeIn>
-          </div>
-        </section>
+        <CTABand />
       </main>
       <Footer />
     </>

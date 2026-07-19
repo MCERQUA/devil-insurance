@@ -1,24 +1,31 @@
 import Link from "next/link";
-import { Navbar } from "@/components/sections/Navbar";
-import { Footer } from "@/components/sections/Footer";
-import { ArrowRight } from "lucide-react";
+import { Sun, Home, Phone } from "lucide-react";
+import { SITE } from "@/lib/site";
 
 export default function NotFound() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-[70vh] flex items-center justify-center bg-[#F5F0F0] py-24">
-        <div className="text-center max-w-md px-4">
-          <div className="font-display font-800 uppercase text-[#8B1538] text-8xl mb-4">404</div>
-          <h1 className="font-display font-700 uppercase text-[#8B1538] text-2xl mb-4">Page Not Found</h1>
-          <p className="text-[#6B5B5F] font-body mb-8">The page you&apos;re looking for doesn&apos;t exist or has moved.</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/" className="btn-primary">Back to Home <ArrowRight className="w-4 h-4" /></Link>
-            <Link href="/quote" className="btn-outline-maroon">Get a Quote</Link>
-          </div>
+    <main className="min-h-screen flex items-center justify-center bg-charcoal px-4">
+      <div className="text-center max-w-md">
+        <div className="w-16 h-16 rounded-xl bg-flame/12 flex items-center justify-center mx-auto mb-6">
+          <Sun className="w-8 h-8 text-flame" />
         </div>
-      </main>
-      <Footer />
-    </>
+        <h1 className="font-heading font-semibold text-6xl text-bone mb-3">404</h1>
+        <h2 className="font-heading font-semibold text-xl text-bone mb-3">
+          Page Not Found
+        </h2>
+        <p className="text-steel-light font-body mb-8">
+          Looks like this one&apos;s out in the sun. Head back home or give us a call
+          and we&apos;ll point you the right way.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/" className="btn-flame">
+            <Home className="w-4 h-4" /> Back to Home
+          </Link>
+          <a href={SITE.phoneHref} className="btn-outline">
+            <Phone className="w-4 h-4" /> {SITE.phone}
+          </a>
+        </div>
+      </div>
+    </main>
   );
 }
