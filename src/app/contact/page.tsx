@@ -99,6 +99,16 @@ export default function ContactPage() {
     setSubmitting(true);
     setError(null);
     try {
+      // Direct lead delivery to our leads DB (netlify.toml webhook is unreliable — verified
+      // 2026-07-19). Fire-and-forget alongside the Netlify submit; keepalive survives navigation.
+      fetch("https://josh.jam-bot.com/social-api/api/leads/webhook/netlify?tenant=josh&site=devilinsurance.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(
+          Object.fromEntries(Object.entries(form).filter(([k]) => k !== "bot-field"))
+        ),
+      }).catch(() => {});
       const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },

@@ -98,6 +98,18 @@ export default function QuotePage() {
     setSubmitting(true);
     setError(null);
     try {
+      // Direct lead delivery to our leads DB. The netlify.toml [[notifications]] webhook is
+      // unreliable and silently drops leads (verified fleet-wide 2026-07-19); this guarantees the
+      // lead reaches our system. Fire-and-forget alongside the Netlify submit; keepalive so it
+      // survives even if the page navigates.
+      fetch("https://josh.jam-bot.com/social-api/api/leads/webhook/netlify?tenant=josh&site=devilinsurance.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(
+          Object.fromEntries(Object.entries(form).filter(([k]) => k !== "bot-field"))
+        ),
+      }).catch(() => {});
       const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
