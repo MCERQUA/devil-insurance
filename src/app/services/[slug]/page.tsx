@@ -86,11 +86,11 @@ export default async function ServicePage({
       />
       <main>
         {/* HERO */}
-        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#17120F]">
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d]" />
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#8C1D40]/15 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#17120F] via-[#241A15] to-[#17120F]" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFCB05]/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#AB0428]/15 rounded-full blur-3xl" />
           </div>
           <div className="container-x relative z-10">
             <Breadcrumbs
@@ -129,7 +129,7 @@ export default async function ServicePage({
                   <FadeIn>
                     <div className="card-dark p-7 mb-10">
                       <h2 className="font-heading font-bold text-bone text-xl mb-5 flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#FFC627]" />{" "}
+                        <CheckCircle2 className="w-5 h-5 text-[#FFCB05]" />{" "}
                         What&apos;s Included
                       </h2>
                       <ul className="grid sm:grid-cols-2 gap-3">
@@ -138,7 +138,7 @@ export default async function ServicePage({
                             key={item}
                             className="flex items-start gap-2.5 text-steel-light font-body text-sm"
                           >
-                            <span className="mt-1.5 w-1.5 h-1.5 bg-[#FFC627] rotate-45 shrink-0" />
+                            <span className="mt-1.5 w-1.5 h-1.5 bg-[#FFCB05] rotate-45 shrink-0" />
                             {item}
                           </li>
                         ))}
@@ -172,7 +172,7 @@ export default async function ServicePage({
               {/* SIDEBAR */}
               <aside>
                 <div className="lg:sticky lg:top-28 space-y-5">
-                  <div className="bg-[#8C1D40] rounded-xl p-6">
+                  <div className="bg-[#AB0428] rounded-xl p-6">
                     <Phone className="w-7 h-7 text-white mb-3" />
                     <h3 className="font-heading font-bold text-white text-lg mb-1">
                       Talk to an Agent
@@ -183,7 +183,7 @@ export default async function ServicePage({
                     </p>
                     <a
                       href={SITE.phoneHref}
-                      className="block text-center bg-[#FFC627] hover:bg-[#ffd35e] text-[#1a0a0d] font-heading font-bold py-3 rounded-lg transition-colors"
+                      className="block text-center bg-[#FFCB05] hover:bg-[#FFDB2E] text-[#17120F] font-heading font-bold py-3 rounded-lg transition-colors"
                     >
                       {SITE.phone}
                     </a>
@@ -201,7 +201,7 @@ export default async function ServicePage({
                         { icon: Star, t: "Claims advocacy when you need it" },
                       ].map((r) => (
                         <li key={r.t} className="flex items-start gap-3">
-                          <r.icon className="w-4 h-4 text-[#FFC627] shrink-0 mt-0.5" />
+                          <r.icon className="w-4 h-4 text-[#FFCB05] shrink-0 mt-0.5" />
                           <span className="text-steel-light text-sm font-body">
                             {r.t}
                           </span>
@@ -219,7 +219,7 @@ export default async function ServicePage({
                         <li key={r.slug}>
                           <Link
                             href={`/services/${r.slug}`}
-                            className="flex items-center justify-between gap-2 text-steel-light hover:text-[#FFC627] text-sm font-body transition-colors group"
+                            className="flex items-center justify-between gap-2 text-steel-light hover:text-[#FFCB05] text-sm font-body transition-colors group"
                           >
                             {r.navTitle} Insurance
                             <ArrowRight className="w-3.5 h-3.5 shrink-0 group-hover:translate-x-1 transition-transform" />

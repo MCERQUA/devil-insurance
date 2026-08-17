@@ -83,14 +83,14 @@ export default function HomePage() {
       />
       <main>
         {/* HERO */}
-        <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#1a0a0d]">
+        <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#17120F]">
           {/* Dark maroon gradient bg */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#17120F] via-[#241A15] to-[#17120F]" />
             {/* Gold glow accent top-right */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FFC627]/5 rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FFCB05]/5 rounded-full blur-3xl" />
             {/* Maroon glow bottom-left */}
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#8C1D40]/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#AB0428]/20 rounded-full blur-3xl" />
           </div>
 
           <div className="container-x relative z-10 pt-28 pb-16">
@@ -106,7 +106,7 @@ export default function HomePage() {
                 <FadeIn direction="up" delay={0.08}>
                   <h1 className="font-heading font-semibold text-4xl sm:text-5xl lg:text-6xl text-bone leading-[1.05] mb-6">
                     Your{" "}
-                    <span className="text-[#FFC627]">Helpful Devil</span>
+                    <span className="text-[#FFCB05]">Helpful Devil</span>
                     <br />
                     Insurance Agent
                   </h1>
@@ -141,7 +141,7 @@ export default function HomePage() {
                         key={chip}
                         className="flex items-center gap-2 text-steel-light text-sm font-body"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#FFC627]" />
+                        <CheckCircle2 className="w-4 h-4 text-[#FFCB05]" />
                         {chip}
                       </div>
                     ))}
@@ -154,7 +154,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-center">
                   <div className="relative">
                     {/* Glow ring behind mascot */}
-                    <div className="absolute inset-0 rounded-full bg-[#FFC627]/10 blur-2xl scale-110" />
+                    <div className="absolute inset-0 rounded-full bg-[#FFCB05]/10 blur-2xl scale-110" />
                     <Image
                       src="/images/devil-logo.png"
                       alt="Devil Insurance mascot — your helpful devil insurance agent"
@@ -171,7 +171,7 @@ export default function HomePage() {
         </section>
 
         {/* TRUST BAR */}
-        <section className="bg-[#8C1D40] border-y border-[#FFC627]/20">
+        <section className="bg-[#AB0428] border-y border-[#FFCB05]/20">
           <div className="container-x py-5">
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
               {TRUST_ITEMS.map((item) => (
@@ -179,7 +179,7 @@ export default function HomePage() {
                   key={item}
                   className="flex items-center gap-2 text-white text-sm font-body font-semibold"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-[#FFC627]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#FFCB05]" />
                   {item}
                 </div>
               ))}
@@ -188,13 +188,13 @@ export default function HomePage() {
         </section>
 
         {/* STAT BAR */}
-        <section className="bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="bg-[#241A15] border-b border-[#3A2A22]">
           <div className="container-x py-10">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {STATS.map((s, i) => (
                 <FadeIn key={s.label} delay={i * 0.06}>
                   <div className="text-center lg:text-left">
-                    <div className="font-heading font-semibold text-3xl sm:text-4xl text-[#FFC627] mb-1">
+                    <div className="font-heading font-semibold text-3xl sm:text-4xl text-[#FFCB05] mb-1">
                       {s.value}
                     </div>
                     <div className="text-steel text-sm font-body leading-snug">
@@ -229,10 +229,10 @@ export default function HomePage() {
                   <FadeIn key={s.slug} delay={(i % 3) * 0.06}>
                     <Link
                       href={`/services/${s.slug}`}
-                      className="group block h-full card-dark p-6 hover:border-[#FFC627]/50 transition-colors"
+                      className="group block h-full card-dark p-6 hover:border-[#FFCB05]/50 transition-colors"
                     >
-                      <div className="w-12 h-12 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center mb-5 group-hover:bg-[#8C1D40]/50 transition-colors">
-                        <Icon className="w-6 h-6 text-[#FFC627]" />
+                      <div className="w-12 h-12 rounded-lg bg-[#AB0428]/30 flex items-center justify-center mb-5 group-hover:bg-[#AB0428]/50 transition-colors">
+                        <Icon className="w-6 h-6 text-[#FFCB05]" />
                       </div>
                       <h3 className="font-heading font-semibold text-bone text-lg mb-2 leading-snug">
                         {s.navTitle} Insurance
@@ -240,7 +240,7 @@ export default function HomePage() {
                       <p className="text-steel text-sm font-body leading-relaxed mb-4">
                         {s.blurb}
                       </p>
-                      <span className="inline-flex items-center gap-1.5 text-[#FFC627] text-sm font-heading font-semibold">
+                      <span className="inline-flex items-center gap-1.5 text-[#FFCB05] text-sm font-heading font-semibold">
                         Get a quote{" "}
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </span>
@@ -253,7 +253,7 @@ export default function HomePage() {
         </section>
 
         {/* WHY DEVIL INSURANCE */}
-        <section className="py-20 sm:py-24 bg-[#2a0e18] border-y border-[#3a1020]">
+        <section className="py-20 sm:py-24 bg-[#241A15] border-y border-[#3A2A22]">
           <div className="container-x">
             <div className="grid lg:grid-cols-2 gap-14 items-center">
               <div>
@@ -271,7 +271,7 @@ export default function HomePage() {
                   </p>
                   <Link
                     href="/about"
-                    className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold hover:gap-3 transition-all"
+                    className="inline-flex items-center gap-2 text-[#FFCB05] font-heading font-semibold hover:gap-3 transition-all"
                   >
                     More about how we work <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -281,8 +281,8 @@ export default function HomePage() {
                 {WHY.map((d, i) => (
                   <FadeIn key={d.title} delay={i * 0.1}>
                     <div className="card-dark p-6 flex gap-5 items-start">
-                      <div className="w-12 h-12 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center shrink-0">
-                        <d.icon className="w-6 h-6 text-[#FFC627]" />
+                      <div className="w-12 h-12 rounded-lg bg-[#AB0428]/30 flex items-center justify-center shrink-0">
+                        <d.icon className="w-6 h-6 text-[#FFCB05]" />
                       </div>
                       <div>
                         <h3 className="font-heading font-semibold text-bone text-lg mb-1.5">
@@ -308,7 +308,7 @@ export default function HomePage() {
                 <div className="kicker mb-3">Ready to Save?</div>
                 <h2 className="font-heading font-semibold text-3xl sm:text-4xl text-bone leading-tight mb-5">
                   Ready to{" "}
-                  <span className="text-[#FFC627]">Protect What Matters</span>
+                  <span className="text-[#FFCB05]">Protect What Matters</span>
                   ?
                 </h2>
                 <p className="text-steel-light font-body text-lg leading-relaxed mb-6">
@@ -327,7 +327,7 @@ export default function HomePage() {
               </FadeIn>
               <FadeIn delay={0.1}>
                 <div className="card-dark p-8">
-                  <MapPin className="w-8 h-8 text-[#FFC627] mb-4" />
+                  <MapPin className="w-8 h-8 text-[#FFCB05] mb-4" />
                   <h3 className="font-heading font-semibold text-bone text-xl mb-3">
                     Serving Arizona &amp; Nationwide
                   </h3>
@@ -341,7 +341,7 @@ export default function HomePage() {
                     {SITE.cities.map((c) => (
                       <span
                         key={c}
-                        className="text-xs font-body text-steel-light bg-[#1a0a0d] px-3 py-1.5 rounded-full steel-border"
+                        className="text-xs font-body text-steel-light bg-[#17120F] px-3 py-1.5 rounded-full steel-border"
                       >
                         {c}
                       </span>
@@ -349,7 +349,7 @@ export default function HomePage() {
                   </div>
                   <Link
                     href="/service-areas"
-                    className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold hover:gap-3 transition-all"
+                    className="inline-flex items-center gap-2 text-[#FFCB05] font-heading font-semibold hover:gap-3 transition-all"
                   >
                     See all service areas <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -360,7 +360,7 @@ export default function HomePage() {
         </section>
 
         {/* FAQ SECTION */}
-        <section className="py-20 sm:py-24 bg-[#2a0e18] border-t border-[#3a1020]">
+        <section className="py-20 sm:py-24 bg-[#241A15] border-t border-[#3A2A22]">
           <div className="container-x">
             <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-12">
               <FadeIn>

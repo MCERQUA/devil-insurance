@@ -32,7 +32,7 @@ export default function BlogIndexPage() {
         ])}
       />
       <main>
-        <section className="relative pt-32 pb-14 overflow-hidden bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="relative pt-32 pb-14 overflow-hidden bg-[#241A15] border-b border-[#3A2A22]">
           <div aria-hidden className="absolute inset-0 opacity-[0.04] bg-hazard-stripes" />
           <div className="container-x relative">
             <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Blog" }]} />
@@ -58,7 +58,7 @@ export default function BlogIndexPage() {
               <FadeIn>
                 <Link
                   href={`/blog/${featured.slug}`}
-                  className="group grid lg:grid-cols-2 gap-8 card-dark overflow-hidden hover:border-[#FFC627]/40 transition-colors mb-14"
+                  className="group grid lg:grid-cols-2 gap-8 card-dark overflow-hidden hover:border-[#FFCB05]/40 transition-colors mb-14"
                 >
                   <div className="relative h-64 lg:h-full min-h-[280px]">
                     <Image
@@ -67,13 +67,13 @@ export default function BlogIndexPage() {
                       fill
                       className="object-cover"
                     />
-                    <span className="absolute top-4 left-4 bg-[#8C1D40] text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1.5 rounded">
+                    <span className="absolute top-4 left-4 bg-[#AB0428] text-white text-xs font-heading font-bold uppercase tracking-wider px-3 py-1.5 rounded">
                       Featured
                     </span>
                   </div>
                   <div className="p-8 lg:pr-10 flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-4 text-xs font-body text-steel-dark">
-                      <span className="text-[#FFC627] font-semibold uppercase tracking-wider">
+                      <span className="text-[#FFCB05] font-semibold uppercase tracking-wider">
                         {featured.category}
                       </span>
                       <span>·</span>
@@ -81,13 +81,13 @@ export default function BlogIndexPage() {
                         <Clock className="w-3.5 h-3.5" /> {featured.readingTime}
                       </span>
                     </div>
-                    <h2 className="font-heading font-bold text-2xl sm:text-3xl text-bone leading-tight mb-3 group-hover:text-[#FFC627] transition-colors">
+                    <h2 className="font-heading font-bold text-2xl sm:text-3xl text-bone leading-tight mb-3 group-hover:text-[#FFCB05] transition-colors">
                       {featured.title}
                     </h2>
                     <p className="text-steel-light font-body leading-relaxed mb-5">
                       {featured.description}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-[#FFC627] font-heading font-semibold">
+                    <span className="inline-flex items-center gap-1.5 text-[#FFCB05] font-heading font-semibold">
                       Read the guide{" "}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
@@ -101,7 +101,7 @@ export default function BlogIndexPage() {
                 <FadeIn key={post.slug} delay={(i % 3) * 0.08}>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="group flex flex-col h-full card-dark overflow-hidden hover:border-[#FFC627]/40 transition-colors"
+                    className="group flex flex-col h-full card-dark overflow-hidden hover:border-[#FFCB05]/40 transition-colors"
                   >
                     <div className="relative h-48">
                       <Image
@@ -113,20 +113,20 @@ export default function BlogIndexPage() {
                     </div>
                     <div className="p-6 flex flex-col flex-1">
                       <div className="flex items-center gap-3 mb-3 text-xs font-body text-steel-dark">
-                        <span className="text-[#FFC627] font-semibold uppercase tracking-wider">
+                        <span className="text-[#FFCB05] font-semibold uppercase tracking-wider">
                           {post.category}
                         </span>
                         <span className="flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" /> {post.readingTime}
                         </span>
                       </div>
-                      <h3 className="font-heading font-bold text-lg text-bone leading-snug mb-2 group-hover:text-[#FFC627] transition-colors">
+                      <h3 className="font-heading font-bold text-lg text-bone leading-snug mb-2 group-hover:text-[#FFCB05] transition-colors">
                         {post.title}
                       </h3>
                       <p className="text-steel text-sm font-body leading-relaxed mb-4 flex-1">
                         {post.description}
                       </p>
-                      <span className="inline-flex items-center gap-1.5 text-[#FFC627] text-sm font-heading font-semibold">
+                      <span className="inline-flex items-center gap-1.5 text-[#FFCB05] text-sm font-heading font-semibold">
                         Read more{" "}
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </span>

@@ -69,7 +69,7 @@ const INITIAL: FormState = {
 const STEPS = ["Coverage Type", "Your Situation", "Contact Info"];
 
 const inputCls =
-  "w-full bg-[#1a0a0d] border border-[#3a1020] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFC627] focus:ring-1 focus:ring-[#FFC627]/30 transition-colors";
+  "w-full bg-[#17120F] border border-[#3A2A22] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFCB05] focus:ring-1 focus:ring-[#FFCB05]/30 transition-colors";
 const labelCls = "block text-bone text-sm font-body font-semibold mb-2";
 
 export default function QuotePage() {
@@ -134,7 +134,7 @@ export default function QuotePage() {
       <Navbar />
       <main>
         {/* HERO */}
-        <section className="relative pt-32 pb-14 overflow-hidden bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="relative pt-32 pb-14 overflow-hidden bg-[#241A15] border-b border-[#3A2A22]">
           <div aria-hidden className="absolute inset-0 opacity-[0.04] bg-hazard-stripes" />
           <div className="container-x relative">
             <div className="max-w-2xl">
@@ -161,8 +161,8 @@ export default function QuotePage() {
                 {submitted ? (
                   <FadeIn>
                     <div className="card-dark p-10 sm:p-12 text-center">
-                      <div className="w-16 h-16 rounded-full bg-[#8C1D40]/30 flex items-center justify-center mx-auto mb-6">
-                        <CheckCircle className="w-8 h-8 text-[#FFC627]" />
+                      <div className="w-16 h-16 rounded-full bg-[#AB0428]/30 flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle className="w-8 h-8 text-[#FFCB05]" />
                       </div>
                       <h2 className="font-heading font-semibold text-2xl text-bone mb-3">
                         Quote Request Received
@@ -174,14 +174,14 @@ export default function QuotePage() {
                       </p>
                       <a
                         href={SITE.phoneHref}
-                        className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold text-lg mb-8"
+                        className="inline-flex items-center gap-2 text-[#FFCB05] font-heading font-semibold text-lg mb-8"
                       >
                         <Phone className="w-5 h-5" /> {SITE.phone}
                       </a>
                       <div>
                         <Link
                           href="/"
-                          className="inline-flex items-center gap-2 text-steel-light hover:text-[#FFC627] font-body font-semibold transition-colors"
+                          className="inline-flex items-center gap-2 text-steel-light hover:text-[#FFCB05] font-body font-semibold transition-colors"
                         >
                           Back to Home <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -198,8 +198,8 @@ export default function QuotePage() {
                             <span
                               className={`w-8 h-8 rounded-lg flex items-center justify-center font-heading font-semibold text-sm shrink-0 transition-colors ${
                                 i <= step
-                                  ? "bg-[#8C1D40] text-white"
-                                  : "bg-[#1a0a0d] text-steel-dark"
+                                  ? "bg-[#AB0428] text-white"
+                                  : "bg-[#17120F] text-steel-dark"
                               }`}
                             >
                               {i + 1}
@@ -215,7 +215,7 @@ export default function QuotePage() {
                           {i < STEPS.length - 1 && (
                             <div
                               className={`h-px flex-1 ${
-                                i < step ? "bg-[#8C1D40]" : "bg-[#3a1020]"
+                                i < step ? "bg-[#AB0428]" : "bg-[#3A2A22]"
                               }`}
                             />
                           )}
@@ -249,7 +249,7 @@ export default function QuotePage() {
                           <div>
                             <label htmlFor="insuranceType" className={labelCls}>
                               What type of insurance do you need?{" "}
-                              <span className="text-[#FFC627]">*</span>
+                              <span className="text-[#FFCB05]">*</span>
                             </label>
                             <select
                               id="insuranceType"
@@ -278,7 +278,7 @@ export default function QuotePage() {
                           <div>
                             <label htmlFor="currentlyInsured" className={labelCls}>
                               Are you currently insured?{" "}
-                              <span className="text-[#FFC627]">*</span>
+                              <span className="text-[#FFCB05]">*</span>
                             </label>
                             <select
                               id="currentlyInsured"
@@ -301,7 +301,7 @@ export default function QuotePage() {
                           <div>
                             <label htmlFor="timeframe" className={labelCls}>
                               When do you need coverage?{" "}
-                              <span className="text-[#FFC627]">*</span>
+                              <span className="text-[#FFCB05]">*</span>
                             </label>
                             <select
                               id="timeframe"
@@ -330,7 +330,7 @@ export default function QuotePage() {
                           <div className="grid sm:grid-cols-2 gap-5">
                             <div>
                               <label htmlFor="name" className={labelCls}>
-                                Full Name <span className="text-[#FFC627]">*</span>
+                                Full Name <span className="text-[#FFCB05]">*</span>
                               </label>
                               <input
                                 id="name"
@@ -346,7 +346,7 @@ export default function QuotePage() {
                             </div>
                             <div>
                               <label htmlFor="phone" className={labelCls}>
-                                Phone <span className="text-[#FFC627]">*</span>
+                                Phone <span className="text-[#FFCB05]">*</span>
                               </label>
                               <input
                                 id="phone"
@@ -364,7 +364,7 @@ export default function QuotePage() {
                           <div className="grid sm:grid-cols-2 gap-5">
                             <div>
                               <label htmlFor="email" className={labelCls}>
-                                Email <span className="text-[#FFC627]">*</span>
+                                Email <span className="text-[#FFCB05]">*</span>
                               </label>
                               <input
                                 id="email"
@@ -412,7 +412,7 @@ export default function QuotePage() {
                       )}
 
                       {error && (
-                        <p className="text-[#FFC627] text-sm font-body mt-5 bg-[#FFC627]/10 border border-[#FFC627]/30 rounded-lg px-4 py-3">
+                        <p className="text-[#FFCB05] text-sm font-body mt-5 bg-[#FFCB05]/10 border border-[#FFCB05]/30 rounded-lg px-4 py-3">
                           {error}
                         </p>
                       )}
@@ -448,7 +448,7 @@ export default function QuotePage() {
                           >
                             {submitting ? (
                               <>
-                                <span className="w-4 h-4 border-2 border-[#1a0a0d]/40 border-t-[#1a0a0d] rounded-full animate-spin" />
+                                <span className="w-4 h-4 border-2 border-[#17120F]/40 border-t-[#17120F] rounded-full animate-spin" />
                                 Submitting…
                               </>
                             ) : (
@@ -467,7 +467,7 @@ export default function QuotePage() {
               {/* SIDEBAR */}
               <aside>
                 <div className="lg:sticky lg:top-28 space-y-5">
-                  <div className="bg-[#8C1D40] rounded-xl p-6">
+                  <div className="bg-[#AB0428] rounded-xl p-6">
                     <p className="text-white/80 text-xs font-body uppercase tracking-wider mb-2">
                       Prefer to Talk?
                     </p>
@@ -491,7 +491,7 @@ export default function QuotePage() {
                         "We present your options — you choose, no pressure.",
                       ].map((t, i) => (
                         <li key={t} className="flex items-start gap-3">
-                          <span className="w-6 h-6 rounded-md bg-[#8C1D40]/30 text-[#FFC627] font-heading font-semibold text-xs flex items-center justify-center shrink-0">
+                          <span className="w-6 h-6 rounded-md bg-[#AB0428]/30 text-[#FFCB05] font-heading font-semibold text-xs flex items-center justify-center shrink-0">
                             {i + 1}
                           </span>
                           <span className="text-steel-light text-sm font-body leading-relaxed">
@@ -514,7 +514,7 @@ export default function QuotePage() {
                           key={b.t}
                           className="flex items-center gap-2 text-steel-light text-xs font-body"
                         >
-                          <b.icon className="w-4 h-4 text-[#FFC627]" /> {b.t}
+                          <b.icon className="w-4 h-4 text-[#FFCB05]" /> {b.t}
                         </div>
                       ))}
                     </div>

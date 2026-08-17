@@ -27,10 +27,10 @@ export default function ServiceAreasPage() {
         ])}
       />
       <main>
-        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#17120F]">
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d]" />
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#17120F] via-[#241A15] to-[#17120F]" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFCB05]/5 rounded-full blur-3xl" />
           </div>
           <div className="container-x relative z-10">
             <Breadcrumbs
@@ -74,7 +74,7 @@ export default function ServiceAreasPage() {
                 <FadeIn key={area.name} delay={(i % 3) * 0.07}>
                   <div className="card-dark p-6 h-full">
                     <div className="flex items-center gap-2.5 mb-3">
-                      <MapPin className="w-5 h-5 text-[#FFC627] shrink-0" />
+                      <MapPin className="w-5 h-5 text-[#FFCB05] shrink-0" />
                       <h3 className="font-heading font-semibold text-bone text-lg">
                         {area.name}, AZ
                       </h3>
@@ -89,7 +89,7 @@ export default function ServiceAreasPage() {
 
             <FadeIn>
               <div className="card-dark p-8 sm:p-10 text-center">
-                <ShieldCheck className="w-8 h-8 text-[#FFC627] mx-auto mb-4" />
+                <ShieldCheck className="w-8 h-8 text-[#FFCB05] mx-auto mb-4" />
                 <h2 className="font-heading font-semibold text-2xl text-bone mb-3">
                   Not in Arizona? We Can Still Help.
                 </h2>

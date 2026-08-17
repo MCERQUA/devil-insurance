@@ -48,13 +48,13 @@ export default function ServicesIndexPage() {
         ]}
       />
       <main>
-        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#17120F]">
           <div
             aria-hidden
             className="absolute inset-0 opacity-[0.04] bg-hazard-stripes"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d] pointer-events-none" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#17120F] via-[#241A15] to-[#17120F] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFCB05]/5 rounded-full blur-3xl pointer-events-none" />
           <div className="container-x relative">
             <Breadcrumbs
               items={[{ name: "Home", href: "/" }, { name: "Services" }]}
@@ -84,10 +84,10 @@ export default function ServicesIndexPage() {
                   <FadeIn key={s.slug} delay={(i % 2) * 0.08}>
                     <Link
                       href={`/services/${s.slug}`}
-                      className="group flex gap-6 card-dark overflow-hidden hover:border-[#FFC627]/40 transition-colors h-full p-6"
+                      className="group flex gap-6 card-dark overflow-hidden hover:border-[#FFCB05]/40 transition-colors h-full p-6"
                     >
-                      <div className="w-14 h-14 rounded-xl bg-[#8C1D40]/30 flex items-center justify-center shrink-0 group-hover:bg-[#8C1D40]/50 transition-colors">
-                        <Icon className="w-7 h-7 text-[#FFC627]" />
+                      <div className="w-14 h-14 rounded-xl bg-[#AB0428]/30 flex items-center justify-center shrink-0 group-hover:bg-[#AB0428]/50 transition-colors">
+                        <Icon className="w-7 h-7 text-[#FFCB05]" />
                       </div>
                       <div>
                         <h2 className="font-heading font-bold text-bone text-xl mb-2 leading-snug">
@@ -96,7 +96,7 @@ export default function ServicesIndexPage() {
                         <p className="text-steel text-sm font-body leading-relaxed mb-4">
                           {s.blurb}
                         </p>
-                        <span className="inline-flex items-center gap-1.5 text-[#FFC627] text-sm font-heading font-semibold">
+                        <span className="inline-flex items-center gap-1.5 text-[#FFCB05] text-sm font-heading font-semibold">
                           Learn more{" "}
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                         </span>

@@ -32,7 +32,7 @@ export default function FaqPage() {
         ]}
       />
       <main>
-        <section className="relative pt-32 pb-14 overflow-hidden bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="relative pt-32 pb-14 overflow-hidden bg-[#241A15] border-b border-[#3A2A22]">
           <div aria-hidden className="absolute inset-0 opacity-[0.04] bg-hazard-stripes" />
           <div className="container-x relative">
             <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "FAQ" }]} />
@@ -66,7 +66,7 @@ export default function FaqPage() {
                       <li key={t.theme}>
                         <a
                           href={`#theme-${i}`}
-                          className="text-steel hover:text-[#FFC627] text-sm font-body transition-colors block leading-snug"
+                          className="text-steel hover:text-[#FFCB05] text-sm font-body transition-colors block leading-snug"
                         >
                           {t.theme}
                         </a>
@@ -74,13 +74,13 @@ export default function FaqPage() {
                     ))}
                   </ul>
                   <div className="mt-8 card-dark p-5">
-                    <Phone className="w-5 h-5 text-[#FFC627] mb-2" />
+                    <Phone className="w-5 h-5 text-[#FFCB05] mb-2" />
                     <p className="text-steel-light text-sm font-body mb-3">
                       Don&apos;t see your question?
                     </p>
                     <a
                       href={SITE.phoneHref}
-                      className="text-[#FFC627] font-heading font-bold text-sm"
+                      className="text-[#FFCB05] font-heading font-bold text-sm"
                     >
                       {SITE.phone}
                     </a>
@@ -94,8 +94,8 @@ export default function FaqPage() {
                   <div key={t.theme} id={`theme-${i}`} className="scroll-mt-28">
                     <FadeIn>
                       <div className="flex items-center gap-3 mb-6">
-                        <span className="w-9 h-9 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center shrink-0">
-                          <ShieldCheck className="w-4 h-4 text-[#FFC627]" />
+                        <span className="w-9 h-9 rounded-lg bg-[#AB0428]/30 flex items-center justify-center shrink-0">
+                          <ShieldCheck className="w-4 h-4 text-[#FFCB05]" />
                         </span>
                         <h2 className="font-heading font-bold text-xl sm:text-2xl text-bone">
                           {t.theme}

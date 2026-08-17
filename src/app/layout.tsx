@@ -55,7 +55,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${heading.variable} ${body.variable}`}>
-      <body className="bg-[#1a0a0d] text-bone font-body antialiased">
+      <body className="bg-[#17120F] text-bone font-body antialiased">
         <JsonLd data={localBusinessSchema()} />
         <SmoothScroll />
         {children}

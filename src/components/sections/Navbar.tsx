@@ -33,8 +33,8 @@ export function Navbar() {
       className={cn(
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-[#1a0a0d]/95 backdrop-blur-md border-b border-[#3a1020] shadow-lg"
-          : "bg-gradient-to-b from-[#1a0a0d]/90 to-transparent"
+          ? "bg-[#17120F]/95 backdrop-blur-md border-b border-[#3A2A22] shadow-lg"
+          : "bg-gradient-to-b from-[#17120F]/90 to-transparent"
       )}
     >
       <div className="container-x">
@@ -50,7 +50,7 @@ export function Navbar() {
             />
             <span className="font-heading font-semibold text-lg sm:text-xl tracking-tight text-bone leading-none">
               Devil{" "}
-              <span className="text-[#FFC627]">Insurance</span>
+              <span className="text-[#FFCB05]">Insurance</span>
             </span>
           </Link>
 
@@ -78,7 +78,7 @@ export function Navbar() {
                           <Link
                             key={s.slug}
                             href={`/services/${s.slug}`}
-                            className="block px-3 py-2 rounded-lg text-sm text-steel-light hover:text-bone hover:bg-[#3a1020] transition-colors"
+                            className="block px-3 py-2 rounded-lg text-sm text-steel-light hover:text-bone hover:bg-[#3A2A22] transition-colors"
                           >
                             {s.navTitle} Insurance
                           </Link>
@@ -103,14 +103,14 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <a
               href={SITE.phoneHref}
-              className="hidden xl:flex items-center gap-2 text-bone hover:text-[#FFC627] transition-colors"
+              className="hidden xl:flex items-center gap-2 text-bone hover:text-[#FFCB05] transition-colors"
             >
-              <Phone className="w-4 h-4 text-[#FFC627]" />
+              <Phone className="w-4 h-4 text-[#FFCB05]" />
               <span className="font-heading font-bold text-sm">{SITE.phone}</span>
             </a>
             <Link
               href="/quote"
-              className="hidden sm:inline-flex items-center bg-[#FFC627] hover:bg-[#ffd35e] text-[#1a0a0d] px-5 py-2.5 rounded-lg font-heading font-bold text-sm tracking-tight transition-colors shadow-[0_0_18px_rgba(255,198,39,0.3)]"
+              className="hidden sm:inline-flex items-center bg-[#FFCB05] hover:bg-[#FFDB2E] text-[#17120F] px-5 py-2.5 rounded-lg font-heading font-bold text-sm tracking-tight transition-colors shadow-[0_0_18px_rgba(255,203,5,0.32)]"
             >
               Free Quote
             </Link>
@@ -127,28 +127,28 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#1a0a0d] border-t border-[#3a1020]">
+        <div className="lg:hidden bg-[#17120F] border-t border-[#3A2A22]">
           <div className="container-x py-4 space-y-1">
             {NAV.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="block px-2 py-2.5 rounded-lg text-steel-light hover:text-bone hover:bg-[#2a0e18] font-medium transition-colors"
+                className="block px-2 py-2.5 rounded-lg text-steel-light hover:text-bone hover:bg-[#241A15] font-medium transition-colors"
               >
                 {item.label}
               </Link>
             ))}
             <a
               href={SITE.phoneHref}
-              className="flex items-center gap-2 px-2 py-2.5 text-[#FFC627] font-heading font-bold"
+              className="flex items-center gap-2 px-2 py-2.5 text-[#FFCB05] font-heading font-bold"
             >
               <Phone className="w-4 h-4" /> {SITE.phone}
             </a>
             <Link
               href="/quote"
               onClick={() => setMobileOpen(false)}
-              className="block text-center bg-[#FFC627] text-[#1a0a0d] px-5 py-3 rounded-lg font-heading font-bold uppercase tracking-tight mt-2"
+              className="block text-center bg-[#FFCB05] text-[#17120F] px-5 py-3 rounded-lg font-heading font-bold uppercase tracking-tight mt-2"
             >
               Get a Free Quote
             </Link>

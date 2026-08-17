@@ -78,7 +78,7 @@ const INITIAL: FormState = {
 };
 
 const inputCls =
-  "w-full bg-[#1a0a0d] border border-[#3a1020] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFC627] focus:ring-1 focus:ring-[#FFC627]/30 transition-colors";
+  "w-full bg-[#17120F] border border-[#3A2A22] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFCB05] focus:ring-1 focus:ring-[#FFCB05]/30 transition-colors";
 const labelCls = "block text-bone text-sm font-body font-semibold mb-2";
 
 export default function ContactPage() {
@@ -133,7 +133,7 @@ export default function ContactPage() {
       <Navbar />
       <main>
         {/* HERO */}
-        <section className="relative pt-32 pb-14 overflow-hidden bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="relative pt-32 pb-14 overflow-hidden bg-[#241A15] border-b border-[#3A2A22]">
           <div aria-hidden className="absolute inset-0 opacity-[0.04] bg-hazard-stripes" />
           <div className="container-x relative">
             <div className="max-w-2xl">
@@ -153,14 +153,14 @@ export default function ContactPage() {
         </section>
 
         {/* CARDS */}
-        <section className="py-14 bg-[#2a0e18] border-b border-[#3a1020]">
+        <section className="py-14 bg-[#241A15] border-b border-[#3A2A22]">
           <div className="container-x">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {CARDS.map((c, i) => {
                 const inner = (
                   <div className="flex flex-col h-full">
-                    <div className="w-11 h-11 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center mb-4">
-                      <c.icon className="w-5 h-5 text-[#FFC627]" />
+                    <div className="w-11 h-11 rounded-lg bg-[#AB0428]/30 flex items-center justify-center mb-4">
+                      <c.icon className="w-5 h-5 text-[#FFCB05]" />
                     </div>
                     <div className="text-steel-dark text-xs font-body uppercase tracking-wider mb-1">
                       {c.label}
@@ -179,7 +179,7 @@ export default function ContactPage() {
                       {c.href ? (
                         <a
                           href={c.href}
-                          className="block h-full hover:text-[#FFC627] transition-colors"
+                          className="block h-full hover:text-[#FFCB05] transition-colors"
                         >
                           {inner}
                         </a>
@@ -200,8 +200,8 @@ export default function ContactPage() {
             {submitted ? (
               <FadeIn>
                 <div className="card-dark p-10 sm:p-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#8C1D40]/30 flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-8 h-8 text-[#FFC627]" />
+                  <div className="w-16 h-16 rounded-full bg-[#AB0428]/30 flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="w-8 h-8 text-[#FFCB05]" />
                   </div>
                   <h2 className="font-heading font-bold text-2xl text-bone mb-3">
                     Message Received
@@ -209,14 +209,14 @@ export default function ContactPage() {
                   <p className="text-steel-light font-body mb-6 max-w-md mx-auto">
                     Thanks for reaching out — we&apos;ll be in touch within one business
                     day. Need an immediate response? Call us anytime at{" "}
-                    <a href={SITE.phoneHref} className="text-[#FFC627] font-semibold">
+                    <a href={SITE.phoneHref} className="text-[#FFCB05] font-semibold">
                       {SITE.phone}
                     </a>
                     .
                   </p>
                   <Link
                     href="/"
-                    className="inline-flex items-center gap-2 text-steel-light hover:text-[#FFC627] font-body font-semibold transition-colors"
+                    className="inline-flex items-center gap-2 text-steel-light hover:text-[#FFCB05] font-body font-semibold transition-colors"
                   >
                     Back to Home <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -251,7 +251,7 @@ export default function ContactPage() {
                     <div className="grid sm:grid-cols-2 gap-5 mb-5">
                       <div>
                         <label htmlFor="name" className={labelCls}>
-                          Full Name <span className="text-[#FFC627]">*</span>
+                          Full Name <span className="text-[#FFCB05]">*</span>
                         </label>
                         <input
                           id="name"
@@ -267,7 +267,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <label htmlFor="email" className={labelCls}>
-                          Email <span className="text-[#FFC627]">*</span>
+                          Email <span className="text-[#FFCB05]">*</span>
                         </label>
                         <input
                           id="email"
@@ -301,7 +301,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <label htmlFor="subject" className={labelCls}>
-                          Subject <span className="text-[#FFC627]">*</span>
+                          Subject <span className="text-[#FFCB05]">*</span>
                         </label>
                         <select
                           id="subject"
@@ -325,7 +325,7 @@ export default function ContactPage() {
 
                     <div className="mb-6">
                       <label htmlFor="message" className={labelCls}>
-                        Message <span className="text-[#FFC627]">*</span>
+                        Message <span className="text-[#FFCB05]">*</span>
                       </label>
                       <textarea
                         id="message"
@@ -340,7 +340,7 @@ export default function ContactPage() {
                     </div>
 
                     {error && (
-                      <p className="text-[#FFC627] text-sm font-body mb-5 bg-[#FFC627]/10 border border-[#FFC627]/30 rounded-lg px-4 py-3">
+                      <p className="text-[#FFCB05] text-sm font-body mb-5 bg-[#FFCB05]/10 border border-[#FFCB05]/30 rounded-lg px-4 py-3">
                         {error}
                       </p>
                     )}
@@ -352,7 +352,7 @@ export default function ContactPage() {
                     >
                       {submitting ? (
                         <>
-                          <span className="w-4 h-4 border-2 border-[#1a0a0d]/40 border-t-[#1a0a0d] rounded-full animate-spin" />
+                          <span className="w-4 h-4 border-2 border-[#17120F]/40 border-t-[#17120F] rounded-full animate-spin" />
                           Sending…
                         </>
                       ) : (

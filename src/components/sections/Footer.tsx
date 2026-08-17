@@ -12,14 +12,14 @@ const TRUST_BADGES = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#150608] border-t border-[#3a1020]">
+    <footer className="bg-[#100E0C] border-t border-[#3A2A22]">
       {/* Trust strip */}
-      <div className="border-b border-[#3a1020]">
+      <div className="border-b border-[#3A2A22]">
         <div className="container-x py-6">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {TRUST_BADGES.map((c) => (
               <div key={c} className="flex items-center gap-2 text-steel-light text-sm font-body">
-                <ShieldCheck className="w-4 h-4 text-[#FFC627]" />
+                <ShieldCheck className="w-4 h-4 text-[#FFCB05]" />
                 {c}
               </div>
             ))}
@@ -40,7 +40,7 @@ export function Footer() {
                 className="w-10 h-10 object-contain"
               />
               <span className="font-heading font-semibold text-lg tracking-tight text-bone">
-                Devil <span className="text-[#FFC627]">Insurance</span>
+                Devil <span className="text-[#FFCB05]">Insurance</span>
               </span>
             </Link>
             <p className="text-steel text-sm font-body leading-relaxed mb-2">
@@ -53,9 +53,9 @@ export function Footer() {
             </p>
             <a
               href={SITE.phoneHref}
-              className="inline-flex items-center gap-2 text-bone hover:text-[#FFC627] font-heading font-bold transition-colors"
+              className="inline-flex items-center gap-2 text-bone hover:text-[#FFCB05] font-heading font-bold transition-colors"
             >
-              <Phone className="w-4 h-4 text-[#FFC627]" />
+              <Phone className="w-4 h-4 text-[#FFCB05]" />
               {SITE.phone}
             </a>
           </div>
@@ -70,7 +70,7 @@ export function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}`}
-                    className="text-steel hover:text-[#FFC627] text-sm font-body transition-colors"
+                    className="text-steel hover:text-[#FFCB05] text-sm font-body transition-colors"
                   >
                     {s.navTitle} Insurance
                   </Link>
@@ -96,7 +96,7 @@ export function Footer() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-steel hover:text-[#FFC627] text-sm font-body transition-colors"
+                    className="text-steel hover:text-[#FFCB05] text-sm font-body transition-colors"
                   >
                     {l.label}
                   </Link>
@@ -112,26 +112,26 @@ export function Footer() {
             </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-steel text-sm">
-                <Phone className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
-                <a href={SITE.phoneHref} className="hover:text-[#FFC627] transition-colors">
+                <Phone className="w-4 h-4 text-[#FFCB05] mt-0.5 shrink-0" />
+                <a href={SITE.phoneHref} className="hover:text-[#FFCB05] transition-colors">
                   {SITE.phone}
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-steel text-sm">
-                <Mail className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                <Mail className="w-4 h-4 text-[#FFCB05] mt-0.5 shrink-0" />
                 <a
                   href={`mailto:${SITE.email}`}
-                  className="hover:text-[#FFC627] transition-colors break-all"
+                  className="hover:text-[#FFCB05] transition-colors break-all"
                 >
                   {SITE.email}
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-steel text-sm">
-                <MapPin className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-[#FFCB05] mt-0.5 shrink-0" />
                 Arizona &amp; Nationwide
               </li>
               <li className="flex items-start gap-2.5 text-steel text-sm">
-                <Clock className="w-4 h-4 text-[#FFC627] mt-0.5 shrink-0" />
+                <Clock className="w-4 h-4 text-[#FFCB05] mt-0.5 shrink-0" />
                 {SITE.hours}
               </li>
             </ul>
@@ -139,7 +139,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[#3a1020]">
+      <div className="border-t border-[#3A2A22]">
         <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-steel-dark text-xs font-body">
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.

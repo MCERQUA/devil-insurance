@@ -1,42 +1,42 @@
 import type { Config } from "tailwindcss";
 
-// Devil Insurance brand palette — maroon, gold, dark desert theme.
+// Devil Insurance brand palette — oxblood/deep true-crimson, gold, warm charcoal.
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        // Devil dark backgrounds
+        // Warm charcoal backgrounds
         charcoal: {
-          DEFAULT: "#1a0a0d",
-          surface: "#2a0e18",
-          light: "#3a1020",
-          800: "#150608",
+          DEFAULT: "#17120F",
+          surface: "#241A15",
+          light: "#3A2A22",
+          800: "#100E0C",
         },
-        // Maroon primary (was "flame")
+        // Oxblood / deep true-crimson primary
         flame: {
-          DEFAULT: "#8C1D40",
-          light: "#a82050",
-          dark: "#6a1530",
+          DEFAULT: "#AB0428",
+          light: "#C5042E",
+          dark: "#7D041C",
         },
         // Gold accent
-        "devil-gold": "#FFC627",
-        "devil-maroon": "#8C1D40",
-        "devil-dark": "#1a0a0d",
-        // Muted rose neutrals (was "steel")
+        "devil-gold": "#FFCB05",
+        "devil-maroon": "#AB0428",
+        "devil-dark": "#17120F",
+        // Warm stone neutrals
         steel: {
-          DEFAULT: "#c9a0a8",
-          light: "#e0c0c8",
-          dark: "#a07888",
+          DEFAULT: "#C4B4A6",
+          light: "#E6DBCF",
+          dark: "#9A8878",
         },
         // Keep sage for accent use
         sage: {
-          DEFAULT: "#c9a0a8",
-          light: "#e0c0c8",
-          dark: "#a07888",
+          DEFAULT: "#C4B4A6",
+          light: "#E6DBCF",
+          dark: "#9A8878",
         },
         bone: "#fdf8f2",
-        caution: "#FFC627",
+        caution: "#FFCB05",
       },
       fontFamily: {
         heading: ["var(--font-heading)", "serif"],
@@ -44,11 +44,11 @@ const config: Config = {
       },
       backgroundImage: {
         "hazard-stripes":
-          "repeating-linear-gradient(45deg, #2a0e18, #2a0e18 12px, #1a0a0d 12px, #1a0a0d 24px)",
+          "repeating-linear-gradient(45deg, #241A15, #241A15 12px, #17120F 12px, #17120F 24px)",
         "steel-sheen":
-          "linear-gradient(135deg, #2a0e18 0%, #3a1020 50%, #150608 100%)",
+          "linear-gradient(135deg, #241A15 0%, #3A2A22 50%, #100E0C 100%)",
         "sand-fade":
-          "linear-gradient(180deg, #fdf8f2 0%, #f0e8e8 100%)",
+          "linear-gradient(180deg, #fdf8f2 0%, #F1EAE0 100%)",
       },
       borderRadius: {
         xl: "0.875rem",

@@ -71,10 +71,10 @@ export default function AboutPage() {
       />
       <main>
         {/* HERO */}
-        <section className="relative pt-32 pb-16 overflow-hidden bg-[#1a0a0d]">
+        <section className="relative pt-32 pb-16 overflow-hidden bg-[#17120F]">
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a0d] via-[#2a0e18] to-[#1a0a0d]" />
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFC627]/5 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#17120F] via-[#241A15] to-[#17120F]" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFCB05]/5 rounded-full blur-3xl" />
           </div>
           <div className="container-x relative z-10">
             <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "About" }]} />
@@ -140,7 +140,7 @@ export default function AboutPage() {
                     { v: "100%", l: "free quotes, always" },
                   ].map((s) => (
                     <div key={s.l} className="card-dark p-6 text-center">
-                      <div className="font-heading font-semibold text-3xl text-[#FFC627] mb-1">
+                      <div className="font-heading font-semibold text-3xl text-[#FFCB05] mb-1">
                         {s.v}
                       </div>
                       <div className="text-steel text-sm font-body leading-snug">
@@ -150,14 +150,14 @@ export default function AboutPage() {
                   ))}
                   <div className="col-span-2 card-dark p-6">
                     <div className="flex items-center gap-2 mb-2">
-                      <Phone className="w-5 h-5 text-[#FFC627]" />
+                      <Phone className="w-5 h-5 text-[#FFCB05]" />
                       <span className="font-heading font-semibold text-bone">
                         Talk to an agent
                       </span>
                     </div>
                     <a
                       href={SITE.phoneHref}
-                      className="font-heading font-semibold text-2xl text-[#FFC627]"
+                      className="font-heading font-semibold text-2xl text-[#FFCB05]"
                     >
                       {SITE.phone}
                     </a>
@@ -172,7 +172,7 @@ export default function AboutPage() {
         </section>
 
         {/* VALUES */}
-        <section className="py-16 sm:py-20 bg-[#150608] border-y border-[#3a1020]">
+        <section className="py-16 sm:py-20 bg-[#100E0C] border-y border-[#3A2A22]">
           <div className="container-x">
             <FadeIn>
               <div className="max-w-2xl mb-12">
@@ -186,8 +186,8 @@ export default function AboutPage() {
               {VALUES.map((v, i) => (
                 <FadeIn key={v.title} delay={(i % 3) * 0.07}>
                   <div className="card-dark p-6 h-full">
-                    <div className="w-12 h-12 rounded-lg bg-[#8C1D40]/30 flex items-center justify-center mb-5">
-                      <v.icon className="w-6 h-6 text-[#FFC627]" />
+                    <div className="w-12 h-12 rounded-lg bg-[#AB0428]/30 flex items-center justify-center mb-5">
+                      <v.icon className="w-6 h-6 text-[#FFCB05]" />
                     </div>
                     <h3 className="font-heading font-semibold text-bone text-lg mb-2">
                       {v.title}
@@ -203,7 +203,7 @@ export default function AboutPage() {
               <div className="mt-10 text-center">
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-2 text-[#FFC627] font-heading font-semibold hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-[#FFCB05] font-heading font-semibold hover:gap-3 transition-all"
                 >
                   Explore all coverage types <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -239,7 +239,7 @@ export default function AboutPage() {
               <FadeIn delay={0.1}>
                 <div className="flex items-center justify-center">
                   <div className="relative">
-                    <div className="absolute inset-0 rounded-full bg-[#FFC627]/10 blur-2xl scale-110" />
+                    <div className="absolute inset-0 rounded-full bg-[#FFCB05]/10 blur-2xl scale-110" />
                     <Image
                       src="/images/devil-logo.png"
                       alt="Devil Insurance mascot"
