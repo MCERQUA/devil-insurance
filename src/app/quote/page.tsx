@@ -42,6 +42,121 @@ const CURRENTLY_INSURED = [
   "Prefer not to say",
 ];
 
+const LIFE_INTEREST = [
+  "Term life",
+  "Whole life",
+  "Universal life / IUL",
+  "Final expense",
+  "Infinite banking / paid-up additions rider",
+  "Not sure — explain my options",
+];
+
+/* ---------------------------------------------------------------------------
+   Multi-line agency form (insurance-agency-multiline).
+   ONE conditional section is rendered, chosen by insuranceType: the personal
+   lines core for home/auto/renters, the commercial set for business, the life
+   set for life. public/__forms.html declares the UNION of all three — Netlify
+   only stores names it has seen declared — but a submission posts the common
+   block plus the ACTIVE section only, so a life lead never carries nine empty
+   commercial columns.
+--------------------------------------------------------------------------- */
+type Branch = "personal" | "business" | "life";
+
+const BRANCH_OF: Record<string, Branch> = {
+  "Home Insurance": "personal",
+  "Auto Insurance": "personal",
+  "Business Insurance": "business",
+  "Life Insurance": "life",
+  "Renters Insurance": "personal",
+  "Specialty Insurance (motorcycle, boat, ATV, etc.)": "personal",
+  "Bundle (home + auto)": "personal",
+  // No single section fits "help me figure it out"; personal lines is this
+  // agency's dominant book, and the free-text message catches the rest.
+  "Multiple types — help me figure it out": "personal",
+};
+
+const SECTION_TITLE: Record<Branch, string> = {
+  personal: "Property & Policy",
+  business: "Business Details",
+  life: "Life Coverage",
+};
+
+const SECTION_BLURB: Record<Branch, string> = {
+  personal:
+    "The carriers need these to rate a home, auto or renters policy. It is the same information you would give them on the phone.",
+  business:
+    "Commercial carriers rate off the entity and its operations — this is the ACORD 125 core.",
+  life: "Enough to shop the life market for you. No medical questions here.",
+};
+
+/* Common block — posted on every branch. `name`, `phone`, `email`, `state`,
+   `message`, `currentlyInsured` and `timeframe` are the names this form has
+   always posted; they are never renamed, only added alongside. */
+const COMMON_FIELDS = [
+  "insuranceType",
+  "currentlyInsured",
+  "timeframe",
+  "name",
+  "phone",
+  "email",
+  "state",
+  "message",
+];
+
+const SECTION_FIELDS: Record<Branch, string[]> = {
+  personal: [
+    "date_of_birth",
+    "mailing_address",
+    "city",
+    "zip",
+    "property_street_address",
+    "drivers_license_number",
+    "current_carrier_name",
+    "current_policy_number",
+    "current_policy_expiration_date",
+    "requested_effective_date",
+  ],
+  business: [
+    "street_address",
+    "city",
+    "zip",
+    "fein",
+    "year_business_started",
+    "business_description",
+    "prior_carrier_name",
+    "prior_policy_number",
+    "prior_policy_expiration",
+  ],
+  life: ["coverage_amount", "interest", "age"],
+};
+
+/* required:true in forms-required-fields.json → enforced by the step guard,
+   because an unmounted section's `required` attributes cannot block submit. */
+const SECTION_REQUIRED: Record<Branch, string[]> = {
+  personal: [
+    "date_of_birth",
+    "mailing_address",
+    "city",
+    "zip",
+    "property_street_address",
+    "current_carrier_name",
+    "current_policy_number",
+    "current_policy_expiration_date",
+  ],
+  business: [
+    "street_address",
+    "city",
+    "zip",
+    "fein",
+    "year_business_started",
+    "business_description",
+    "prior_carrier_name",
+    "prior_policy_number",
+    "prior_policy_expiration",
+  ],
+  life: ["coverage_amount", "interest", "age"],
+};
+
 interface FormState {
   insuranceType: string;
   currentlyInsured: string;
@@ -53,15 +168,31 @@ interface FormState {
   message: string;
   "bot-field": string;
 
-  street_address: string;
+  // personal lines
+  date_of_birth: string;
+  mailing_address: string;
   city: string;
   zip: string;
+  property_street_address: string;
+  drivers_license_number: string;
+  current_carrier_name: string;
+  current_policy_number: string;
+  current_policy_expiration_date: string;
+  requested_effective_date: string;
+
+  // commercial
+  street_address: string;
   fein: string;
   year_business_started: string;
   business_description: string;
   prior_carrier_name: string;
   prior_policy_number: string;
   prior_policy_expiration: string;
+
+  // life
+  coverage_amount: string;
+  interest: string;
+  age: string;
 }
 
 const INITIAL: FormState = {
@@ -74,10 +205,30 @@ const INITIAL: FormState = {
   state: "",
   message: "",
   "bot-field": "",
-    street_address: "", city: "", zip: "", fein: "", year_business_started: "", business_description: "", prior_carrier_name: "", prior_policy_number: "", prior_policy_expiration: "",
-  };
 
-const STEPS = ["Coverage Type", "Your Situation", "Contact Info"];
+  date_of_birth: "",
+  mailing_address: "",
+  city: "",
+  zip: "",
+  property_street_address: "",
+  drivers_license_number: "",
+  current_carrier_name: "",
+  current_policy_number: "",
+  current_policy_expiration_date: "",
+  requested_effective_date: "",
+
+  street_address: "",
+  fein: "",
+  year_business_started: "",
+  business_description: "",
+  prior_carrier_name: "",
+  prior_policy_number: "",
+  prior_policy_expiration: "",
+
+  coverage_amount: "",
+  interest: "",
+  age: "",
+};
 
 const inputCls =
   "w-full bg-[#17120F] border border-[#3A2A22] rounded-lg px-4 py-3 text-bone font-body text-sm placeholder:text-steel-dark focus:outline-none focus:border-[#FFCB05] focus:ring-1 focus:ring-[#FFCB05]/30 transition-colors";
@@ -90,6 +241,15 @@ export default function QuotePage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const branch: Branch = BRANCH_OF[form.insuranceType] ?? "personal";
+
+  const STEPS = [
+    "Coverage Type",
+    "Your Situation",
+    form.insuranceType ? SECTION_TITLE[branch] : "Coverage Details",
+    "Contact Info",
+  ];
+
   const update = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -101,13 +261,29 @@ export default function QuotePage() {
       ? Boolean(form.insuranceType)
       : step === 1
         ? Boolean(form.currentlyInsured && form.timeframe)
-        : true;
+        : step === 2
+          ? SECTION_REQUIRED[branch].every((k) =>
+              String(form[k as keyof FormState] ?? "").trim()
+            )
+          : true;
+
+  /* Posted names = common block + the active section. A superset of this (the
+     union of every branch) is what public/__forms.html declares, so every name
+     posted here is a declared name on every branch. */
+  const payload = () =>
+    Object.fromEntries(
+      [...COMMON_FIELDS, ...SECTION_FIELDS[branch]].map((k) => [
+        k,
+        String(form[k as keyof FormState] ?? ""),
+      ])
+    );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form["bot-field"]) return;
     setSubmitting(true);
     setError(null);
+    const fields = payload();
     try {
       // Direct lead delivery to our leads DB. The netlify.toml [[notifications]] webhook is
       // unreliable and silently drops leads (verified fleet-wide 2026-07-19); this guarantees the
@@ -117,16 +293,14 @@ export default function QuotePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         keepalive: true,
-        body: JSON.stringify(
-          Object.fromEntries(Object.entries(form).filter(([k]) => k !== "bot-field"))
-        ),
+        body: JSON.stringify(fields),
       }).catch(() => {});
       const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
           "form-name": "quote",
-          ...form,
+          ...fields,
         }).toString(),
       });
       if (!res.ok) throw new Error("Submission failed");
@@ -138,6 +312,175 @@ export default function QuotePage() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  /* Plain functions, not components — a component declared inside render is a
+     new type on every keystroke and React would remount the input, losing focus. */
+  const text = (
+    name: keyof FormState,
+    label: string,
+    opts: { type?: string; required?: boolean; placeholder?: string } = {}
+  ) => (
+    <div key={name}>
+      <label htmlFor={name} className={labelCls}>
+        {label}
+        {opts.required && <span className="text-[#FFCB05]"> *</span>}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={opts.type ?? "text"}
+        required={opts.required}
+        value={form[name]}
+        onChange={update}
+        placeholder={opts.placeholder}
+        className={inputCls}
+      />
+    </div>
+  );
+
+  const area = (name: keyof FormState, label: string, required?: boolean) => (
+    <div key={name}>
+      <label htmlFor={name} className={labelCls}>
+        {label}
+        {required && <span className="text-[#FFCB05]"> *</span>}
+      </label>
+      <textarea
+        id={name}
+        name={name}
+        rows={3}
+        required={required}
+        value={form[name]}
+        onChange={update}
+        className={`${inputCls} resize-none`}
+      />
+    </div>
+  );
+
+  const choose = (
+    name: keyof FormState,
+    label: string,
+    options: string[],
+    required?: boolean
+  ) => (
+    <div key={name}>
+      <label htmlFor={name} className={labelCls}>
+        {label}
+        {required && <span className="text-[#FFCB05]"> *</span>}
+      </label>
+      <select
+        id={name}
+        name={name}
+        required={required}
+        value={form[name]}
+        onChange={update}
+        className={inputCls}
+      >
+        <option value="" disabled>
+          Select…
+        </option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+
+  const personalSection = (
+    <div className="space-y-5">
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("date_of_birth", "Date of birth", { type: "date", required: true })}
+        {text("drivers_license_number", "Driver license number", {
+          placeholder: "Optional",
+        })}
+      </div>
+      {text("mailing_address", "Current mailing address", {
+        required: true,
+        placeholder: "123 E Main St",
+      })}
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("city", "City", { required: true, placeholder: "Phoenix" })}
+        {text("zip", "ZIP", { required: true, placeholder: "85001" })}
+      </div>
+      {text("property_street_address", "Property street address", {
+        required: true,
+        placeholder: "Same as mailing address, if that is the one to insure",
+      })}
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("current_carrier_name", "Current carrier", {
+          required: true,
+          placeholder: "State Farm, Progressive…",
+        })}
+        {text("current_policy_number", "Current policy number", {
+          required: true,
+        })}
+      </div>
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("current_policy_expiration_date", "Current policy expires", {
+          type: "date",
+          required: true,
+        })}
+        {text("requested_effective_date", "Requested effective date", {
+          type: "date",
+        })}
+      </div>
+    </div>
+  );
+
+  const businessSection = (
+    <div className="space-y-5">
+      {text("street_address", "Business street address", {
+        required: true,
+        placeholder: "123 E Main St",
+      })}
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("city", "City", { required: true, placeholder: "Phoenix" })}
+        {text("zip", "ZIP", { required: true, placeholder: "85001" })}
+      </div>
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("fein", "Federal Employer ID Number (FEIN)", {
+          required: true,
+          placeholder: "12-3456789",
+        })}
+        {text("year_business_started", "Year business started", {
+          type: "number",
+          required: true,
+          placeholder: "2014",
+        })}
+      </div>
+      {area("business_description", "Description of business", true)}
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("prior_carrier_name", "Prior insurance carrier", {
+          required: true,
+        })}
+        {text("prior_policy_number", "Prior policy number", { required: true })}
+      </div>
+      {text("prior_policy_expiration", "Prior policy expiration date", {
+        type: "date",
+        required: true,
+      })}
+    </div>
+  );
+
+  const lifeSection = (
+    <div className="space-y-5">
+      {choose("interest", "What are you interested in?", LIFE_INTEREST, true)}
+      <div className="grid sm:grid-cols-2 gap-5">
+        {text("coverage_amount", "Desired coverage amount / monthly budget", {
+          required: true,
+          placeholder: "$500,000 — or $150/mo",
+        })}
+        {text("age", "Age", { type: "number", required: true, placeholder: "42" })}
+      </div>
+    </div>
+  );
+
+  const SECTION: Record<Branch, React.ReactNode> = {
+    personal: personalSection,
+    business: businessSection,
+    life: lifeSection,
   };
 
   return (
@@ -254,7 +597,8 @@ export default function QuotePage() {
                         </label>
                       </div>
 
-                      {/* STEP 1 */}
+                      {/* STEP 1 — coverage type. This choice picks the section
+                          rendered at step 3. */}
                       {step === 0 && (
                         <div className="space-y-5">
                           <div>
@@ -286,145 +630,72 @@ export default function QuotePage() {
                       {/* STEP 2 */}
                       {step === 1 && (
                         <div className="space-y-5">
-                          <div>
-                            <label htmlFor="currentlyInsured" className={labelCls}>
-                              Are you currently insured?{" "}
-                              <span className="text-[#FFCB05]">*</span>
-                            </label>
-                            <select
-                              id="currentlyInsured"
-                              name="currentlyInsured"
-                              required
-                              value={form.currentlyInsured}
-                              onChange={update}
-                              className={inputCls}
-                            >
-                              <option value="" disabled>
-                                Select…
-                              </option>
-                              {CURRENTLY_INSURED.map((c) => (
-                                <option key={c} value={c}>
-                                  {c}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div>
-                            <label htmlFor="timeframe" className={labelCls}>
-                              When do you need coverage?{" "}
-                              <span className="text-[#FFCB05]">*</span>
-                            </label>
-                            <select
-                              id="timeframe"
-                              name="timeframe"
-                              required
-                              value={form.timeframe}
-                              onChange={update}
-                              className={inputCls}
-                            >
-                              <option value="" disabled>
-                                Select a timeframe…
-                              </option>
-                              {TIMEFRAMES.map((w) => (
-                                <option key={w} value={w}>
-                                  {w}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
+                          {choose(
+                            "currentlyInsured",
+                            "Are you currently insured?",
+                            CURRENTLY_INSURED,
+                            true
+                          )}
+                          {choose(
+                            "timeframe",
+                            "When do you need coverage?",
+                            TIMEFRAMES,
+                            true
+                          )}
                         </div>
                       )}
 
-                      {/* STEP 3 */}
+                      {/* STEP 3 — ONE conditional section, chosen by insuranceType */}
                       {step === 2 && (
                         <div className="space-y-5">
+                          <div className="rounded-lg bg-[#17120F] border border-[#3A2A22] px-4 py-3">
+                            <p className="text-bone font-heading font-semibold text-sm mb-1">
+                              {SECTION_TITLE[branch]}
+                            </p>
+                            <p className="text-steel-light font-body text-xs leading-relaxed">
+                              {SECTION_BLURB[branch]}
+                            </p>
+                          </div>
+                          {SECTION[branch]}
+                        </div>
+                      )}
+
+                      {/* STEP 4 */}
+                      {step === 3 && (
+                        <div className="space-y-5">
                           <div className="grid sm:grid-cols-2 gap-5">
-                            <div>
-                              <label htmlFor="name" className={labelCls}>
-                                Full Name <span className="text-[#FFCB05]">*</span>
-                              </label>
-                              <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                required
-                                autoComplete="name"
-                                value={form.name}
-                                onChange={update}
-                                placeholder="Jane Smith"
-                                className={inputCls}
-                              />
-                            </div>
-                            <div>
-                              <label htmlFor="phone" className={labelCls}>
-                                Phone <span className="text-[#FFCB05]">*</span>
-                              </label>
-                              <input
-                                id="phone"
-                                name="phone"
-                                type="tel"
-                                required
-                                autoComplete="tel"
-                                value={form.phone}
-                                onChange={update}
-                                placeholder="(602) 555-0100"
-                                className={inputCls}
-                              />
-                            </div>
+                            {text("name", "Full Name", {
+                              required: true,
+                              placeholder: "Jane Smith",
+                            })}
+                            {text("phone", "Phone", {
+                              type: "tel",
+                              required: true,
+                              placeholder: "(602) 555-0100",
+                            })}
                           </div>
                           <div className="grid sm:grid-cols-2 gap-5">
-                            <div>
-                              <label htmlFor="email" className={labelCls}>
-                                Email <span className="text-[#FFCB05]">*</span>
-                              </label>
-                              <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                required
-                                autoComplete="email"
-                                value={form.email}
-                                onChange={update}
-                                placeholder="jane@email.com"
-                                className={inputCls}
-                              />
-                            </div>
-                            <div>
-                              <label htmlFor="state" className={labelCls}>
-                                State
-                              </label>
-                              <input
-                                id="state"
-                                name="state"
-                                type="text"
-                                autoComplete="address-level1"
-                                value={form.state}
-                                onChange={update}
-                                placeholder="Arizona"
-                                className={inputCls}
-                              />
-                            </div>
+                            {text("email", "Email", {
+                              type: "email",
+                              required: true,
+                              placeholder: "jane@email.com",
+                            })}
+                            {text("state", "State", { placeholder: "Arizona" })}
                           </div>
-                          <div>
-                            <label htmlFor="message" className={labelCls}>
-                              Anything else we should know?
-                            </label>
-                            <textarea
-                              id="message"
-                              name="message"
-                              rows={4}
-                              value={form.message}
-                              onChange={update}
-                              placeholder="Current carrier, coverage amounts, specific questions, etc."
-                              className={`${inputCls} resize-none`}
-                            />
-                          </div>
+                          {area("message", "Anything else we should know?")}
                         </div>
                       )}
 
                       {error && (
                         <p className="text-[#FFCB05] text-sm font-body mt-5 bg-[#FFCB05]/10 border border-[#FFCB05]/30 rounded-lg px-4 py-3">
                           {error}
+                        </p>
+                      )}
+
+                      {step === 2 && !canNext && (
+                        <p className="text-steel-light text-xs font-body mt-5">
+                          Every field marked * is one the carriers require to
+                          quote — we cannot shop the market without them.
                         </p>
                       )}
 
@@ -470,45 +741,7 @@ export default function QuotePage() {
                           </button>
                         )}
                       </div>
-                    
-        {/* complete contractor field set — forms-required-fields.json */}
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Street address</label>
-          <input type="text" name="street_address" value={form.street_address} onChange={(e) => setForm({ ...form, street_address: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">City</label>
-          <input type="text" name="city" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">ZIP code</label>
-          <input type="text" name="zip" value={form.zip} onChange={(e) => setForm({ ...form, zip: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Federal Employer ID Number (FEIN)</label>
-          <input type="text" name="fein" value={form.fein} onChange={(e) => setForm({ ...form, fein: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Year business started</label>
-          <input type="number" name="year_business_started" value={form.year_business_started} onChange={(e) => setForm({ ...form, year_business_started: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Description of business</label>
-          <textarea name="business_description" rows={3} value={form.business_description} onChange={(e) => setForm({ ...form, business_description: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Prior insurance carrier name</label>
-          <input type="text" name="prior_carrier_name" value={form.prior_carrier_name} onChange={(e) => setForm({ ...form, prior_carrier_name: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Prior policy number</label>
-          <input type="text" name="prior_policy_number" value={form.prior_policy_number} onChange={(e) => setForm({ ...form, prior_policy_number: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-        <div>
-          <label className="block text-sm font-bold mb-1.5">Prior policy expiration date</label>
-          <input type="date" name="prior_policy_expiration" value={form.prior_policy_expiration} onChange={(e) => setForm({ ...form, prior_policy_expiration: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
-        </div>
-</form>
+                    </form>
                   </div>
                 )}
               </div>

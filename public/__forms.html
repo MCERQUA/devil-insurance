@@ -2,9 +2,19 @@
 <html lang="en">
 <head><meta charset="utf-8"><title>Netlify Forms Declarations</title></head>
 <body>
+  <!--
+    The quote form renders ONE section at a time, chosen by insuranceType
+    (see src/app/quote/page.tsx). Netlify only stores field names it has seen
+    declared, so this decoy declares the UNION of every branch. A submission
+    posts the common block plus the active section only, which is a subset of
+    what is declared here.
+    Names are never renamed — renaming orphans rows already captured.
+  -->
   <form name="quote" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="quote" />
   <input name="bot-field" />
+
+  <!-- common block — posted on every branch -->
   <input name="insuranceType" />
   <input name="currentlyInsured" />
   <input name="timeframe" />
@@ -13,15 +23,34 @@
   <input name="email" />
   <input name="state" />
   <input name="message" />
-  <input name="street_address" />
+
+  <!-- personal lines section (home / auto / renters) -->
+  <input name="date_of_birth" />
+  <input name="mailing_address" />
   <input name="city" />
   <input name="zip" />
+  <input name="property_street_address" />
+  <input name="drivers_license_number" />
+  <input name="current_carrier_name" />
+  <input name="current_policy_number" />
+  <input name="current_policy_expiration_date" />
+  <input name="requested_effective_date" />
+
+  <!-- commercial section (business) -->
+  <input name="street_address" />
   <input name="fein" />
   <input name="year_business_started" />
   <input name="business_description" />
   <input name="prior_carrier_name" />
   <input name="prior_policy_number" />
   <input name="prior_policy_expiration" />
+
+  <!-- life section -->
+  <input name="coverage_amount" />
+  <input name="interest" />
+  <input name="age" />
+
+  <!-- retired names kept declared so previously captured rows keep their columns -->
   <input name="projectType" />
   <input name="size" />
   <input name="material" />
