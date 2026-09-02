@@ -52,6 +52,16 @@ interface FormState {
   state: string;
   message: string;
   "bot-field": string;
+
+  street_address: string;
+  city: string;
+  zip: string;
+  fein: string;
+  year_business_started: string;
+  business_description: string;
+  prior_carrier_name: string;
+  prior_policy_number: string;
+  prior_policy_expiration: string;
 }
 
 const INITIAL: FormState = {
@@ -64,7 +74,8 @@ const INITIAL: FormState = {
   state: "",
   message: "",
   "bot-field": "",
-};
+    street_address: "", city: "", zip: "", fein: "", year_business_started: "", business_description: "", prior_carrier_name: "", prior_policy_number: "", prior_policy_expiration: "",
+  };
 
 const STEPS = ["Coverage Type", "Your Situation", "Contact Info"];
 
@@ -459,7 +470,45 @@ export default function QuotePage() {
                           </button>
                         )}
                       </div>
-                    </form>
+                    
+        {/* complete contractor field set — forms-required-fields.json */}
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Street address</label>
+          <input type="text" name="street_address" value={form.street_address} onChange={(e) => setForm({ ...form, street_address: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">City</label>
+          <input type="text" name="city" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">ZIP code</label>
+          <input type="text" name="zip" value={form.zip} onChange={(e) => setForm({ ...form, zip: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Federal Employer ID Number (FEIN)</label>
+          <input type="text" name="fein" value={form.fein} onChange={(e) => setForm({ ...form, fein: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Year business started</label>
+          <input type="number" name="year_business_started" value={form.year_business_started} onChange={(e) => setForm({ ...form, year_business_started: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Description of business</label>
+          <textarea name="business_description" rows={3} value={form.business_description} onChange={(e) => setForm({ ...form, business_description: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Prior insurance carrier name</label>
+          <input type="text" name="prior_carrier_name" value={form.prior_carrier_name} onChange={(e) => setForm({ ...form, prior_carrier_name: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Prior policy number</label>
+          <input type="text" name="prior_policy_number" value={form.prior_policy_number} onChange={(e) => setForm({ ...form, prior_policy_number: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold mb-1.5">Prior policy expiration date</label>
+          <input type="date" name="prior_policy_expiration" value={form.prior_policy_expiration} onChange={(e) => setForm({ ...form, prior_policy_expiration: e.target.value })} className="w-full px-4 py-2.5 border rounded-lg" />
+        </div>
+</form>
                   </div>
                 )}
               </div>
